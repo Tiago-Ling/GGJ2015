@@ -86,10 +86,10 @@ class Thruster extends FlxGroup
 	{
 		super.update(elapsed);
 
-		handleInput();
+		handleInput(elapsed);
 	}
 
-	function handleInput()
+	function handleInput(elapsed:Float)
 	{
 		if (!isAttached)
 			return;
@@ -101,6 +101,7 @@ class Thruster extends FlxGroup
 					rocket.revive();
 					rocket.setPosition(gfx.x - 20, gfx.y);
 					rocket.start(true, 0.3, 10);
+					FlxG.camera.scroll.x -= 100 * elapsed;
 				}
 
 				if (FlxG.keys.justReleased.LEFT && isThrusting) {
@@ -113,6 +114,7 @@ class Thruster extends FlxGroup
 					rocket.revive();
 					rocket.setPosition(gfx.x + 52, gfx.y);
 					rocket.start(true, 0.3, 10);
+					FlxG.camera.scroll.x -= 100 * elapsed;
 				}
 
 				if (FlxG.keys.justReleased.RIGHT && isThrusting) {
@@ -127,6 +129,7 @@ class Thruster extends FlxGroup
 					rocket.revive();
 					rocket.setPosition(gfx.x - 20, gfx.y);
 					rocket.start(true, 0.3, 10);
+					FlxG.camera.scroll.x -= 100 * elapsed;
 				}
 
 				if (FlxG.keys.justReleased.A && isThrusting) {
@@ -139,6 +142,7 @@ class Thruster extends FlxGroup
 					rocket.revive();
 					rocket.setPosition(gfx.x + 52, gfx.y);
 					rocket.start(true, 0.3, 10);
+					FlxG.camera.scroll.x += 100 * elapsed;
 				}
 
 				if (FlxG.keys.justReleased.D && isThrusting) {
