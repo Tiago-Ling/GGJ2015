@@ -8,11 +8,12 @@ import flixel.util.FlxColor;
 class Player extends FlxSprite
 {
 	var ship:FlxSprite;
-	var keys:Array<Int>;
 
-	public function new (X:Float, Y:Float, ?SimpleGraphic:flixel.system.FlxAssets.FlxGraphicAsset)
+	public function new (X:Float, Y:Float, id:Int, ?SimpleGraphic:flixel.system.FlxAssets.FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
+
+		ID = id;
 
 		init();
 	}
@@ -38,28 +39,51 @@ class Player extends FlxSprite
 
 		FlxSpriteUtil.bound(this, ship.x, ship.x + ship.width, ship.y - 24, ship.y + ship.height);
 
-		if (FlxG.keys.pressed.UP) {
-			// velocity.y -= 200 * elapsed;
-			velocity.y = -200;
-		}
+		handleInput();
+	}
 
-		if (FlxG.keys.pressed.DOWN) {
-			// velocity.y += 200 * elapsed;
-			velocity.y = 200;
-		}
+	function handleInput()
+	{
+		if (ID == 0) {
+			if (FlxG.keys.pressed.UP) {
+				velocity.y = -200;
+			}
 
-		if (FlxG.keys.pressed.LEFT) {
-			// velocity.x -= 200 * elapsed;
-			velocity.x = -200;
-		}
+			if (FlxG.keys.pressed.DOWN) {
+				velocity.y = 200;
+			}
 
-		if (FlxG.keys.pressed.RIGHT) {
-			// velocity.x += 200 * elapsed;
-			velocity.x = 200;
-		}
+			if (FlxG.keys.pressed.LEFT) {
+				velocity.x = -200;
+			}
 
-		if (FlxG.keys.justReleased.ANY) {
-			velocity.set(0, 0);
+			if (FlxG.keys.pressed.RIGHT) {
+				velocity.x = 200;
+			}
+
+			if (FlxG.keys.justReleased.ANY) {
+				velocity.set(0, 0);
+			}
+		} else {
+			if (FlxG.keys.pressed.W) {
+				velocity.y = -200;
+			}
+
+			if (FlxG.keys.pressed.S) {
+				velocity.y = 200;
+			}
+
+			if (FlxG.keys.pressed.A) {
+				velocity.x = -200;
+			}
+
+			if (FlxG.keys.pressed.D) {
+				velocity.x = 200;
+			}
+
+			if (FlxG.keys.justReleased.ANY) {
+				velocity.set(0, 0);
+			}
 		}
 	}
 
