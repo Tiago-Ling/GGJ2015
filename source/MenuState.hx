@@ -15,10 +15,12 @@ import flixel.util.FlxSpriteUtil;
  */
 class MenuState extends FlxState
 {
+	var pA:Player;
+	var pB:Player;
 	var ship:Ship;
 
 	/**
-	 * Function that is called up when to state is created to set it up. 
+	 * Function that is called up when to state is created to set it up.
 	 */
 	override public function create():Void
 	{
@@ -34,10 +36,17 @@ class MenuState extends FlxState
 		ship = new Ship(FlxG.width / 2 - w / 2, FlxG.height / 2 - h / 2);
 		add(ship);
 
+		pA = new Player(300, 300, 0);
+		pA.boundTo(ship);
+		add(pA);
+
+		pB = new Player(350, 300, 1);
+		pB.boundTo(ship);
+		add(pB);
 	}
-	
+
 	/**
-	 * Function that is called when this state is destroyed - you might want to 
+	 * Function that is called when this state is destroyed - you might want to
 	 * consider setting all objects this state uses to null to help garbage collection.
 	 */
 	override public function destroy():Void
@@ -54,7 +63,10 @@ class MenuState extends FlxState
 
 		FlxG.camera.scroll.y -= 100 * elapsed;
 
-		handleSlotInteraction();
+		if (FlxG.keys.justReleased.F12)
+		{
+			Configuration.load(AssetPaths.config__xml);
+		}
 	}
 
 	function handleSlotInteraction()

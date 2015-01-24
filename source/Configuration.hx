@@ -6,18 +6,14 @@ import openfl.Assets;
 // This class holds all the configurations of the game read from config xml
 class Configuration
 {
-	public function new()
+	public static function load(filePath:String):Void
 	{
+		Assets.loadText(filePath, function (data:String):Void {
+			var xml = Xml.parse(data);
+			var config = new Fast(xml.firstElement());
 
-	}
-
-	public function load(filePath:String):Void
-	{
-		var fileData = Assets.getText(filePath);
-		var xml = Xml.parse(fileData);
-
-		var config = new Fast(xml.firstElement());
-		trace(config.node.test.att.name);
+			trace(config.node.test.att.name);
+		});
 	}
 
 
