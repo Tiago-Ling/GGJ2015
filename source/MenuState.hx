@@ -15,8 +15,9 @@ import flixel.util.FlxSpriteUtil;
  */
 class MenuState extends FlxState
 {
-	var spr:Player;
-	var boat:FlxSprite;
+	var pA:Player;
+	var pB:Player;
+	var ship:Ship;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -28,19 +29,20 @@ class MenuState extends FlxState
 		this.bgColor = 0xff444444;
 
 		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__jpeg, 1, 1, true, true);
-		// bg.loadGraphic(AssetPaths);
-		// bg.setPosition(FlxG.width / 2 - w / 2, FlxG.height / 2 - h / 2);
 		add(bg);
 
-		boat = new FlxSprite(0, 0);
-		boat.makeGraphic(250, 450, FlxColor.YELLOW);
-		boat.setPosition(FlxG.width / 2 - boat.width / 2, FlxG.height / 2 - boat.height / 2);
-		boat.scrollFactor.set(0, 0);
-		add(boat);
+		var w = 533;
+		var h = 321;
+		ship = new Ship(FlxG.width / 2 - w / 2, FlxG.height / 2 - h / 2);
+		add(ship);
 
-		spr = new Player(300, 300);
-		spr.boundTo(boat);
-		add(spr);
+		pA = new Player(300, 300, 0);
+		pA.boundTo(ship);
+		add(pA);
+
+		pB = new Player(350, 300, 1);
+		pB.boundTo(ship);
+		add(pB);
 	}
 	
 	/**
