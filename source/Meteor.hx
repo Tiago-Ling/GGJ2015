@@ -10,15 +10,16 @@ class Meteor extends Spawnable
 
 	public function new(x:Float, y:Float, ?simpleGraphic:FlxGraphicAsset)
 	{
-		// TODO fazer o load com o loadRotatedGraphic
 		super(x, y, simpleGraphic);
 	}
 
 	override public function init()
 	{
-		makeGraphic(32, 32, FlxColor.GRAY);
+		loadRotatedGraphic(AssetPaths.asteroide__png, 32, -1, false, true);
 
 		isOnScene = false;
+
+		velocity.y = -75;
 
 		kill();
 	}
@@ -26,6 +27,8 @@ class Meteor extends Spawnable
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		angle += 100 * elapsed;
 
 		if (!isOnScene && isOnScreen())
 		{

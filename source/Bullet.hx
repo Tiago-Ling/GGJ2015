@@ -2,6 +2,7 @@ package ;
 
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
+import flixel.FlxObject;
 
 class Bullet extends FlxSprite
 {
@@ -19,6 +20,7 @@ class Bullet extends FlxSprite
 	{
 		makeGraphic(4, 8, FlxColor.RED);
 		scrollFactor.set(0, 0);
+		allowCollisions = FlxObject.NONE;
 		kill();
 	}
 

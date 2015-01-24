@@ -10,6 +10,7 @@ import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup;
 import flixel.util.FlxSpriteUtil;
+import flixel.math.FlxPoint;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -51,7 +52,7 @@ class MenuState extends FlxState
 		enemyGroup = new EnemyGroup();
 		add(enemyGroup);
 
-		enemyGroup.spawn();
+		enemyGroup.spawn(FlxPoint.weak(0, 0));
 	}
 
 	/**
@@ -69,6 +70,8 @@ class MenuState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+		checkCollisions();
 
 		FlxG.camera.scroll.y -= 100 * elapsed;
 
@@ -88,6 +91,15 @@ class MenuState extends FlxState
 		{
 			Configuration.load(AssetPaths.config__xml);
 		}
+	}
+
+	function checkCollisions()
+	{
+		FlxG.overlap(ship.bullets, enemyGroup, function (a:Bullet, b:Enemy) {
+			trace('Collision -> bullet x enemy');
+			a.kill();
+			b.kill();
+		});
 	}
 
 	function handleSlotInteraction()

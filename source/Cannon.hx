@@ -13,10 +13,11 @@ class Cannon extends FlxGroup
 	public static var BULLET_DELAY:Float = 25;
 	public static var BULLET_SPEED:Float = 600;
 
+	public var bullets:FlxTypedGroup<Bullet>;
+	
 	var gfx:FlxSprite;
 	var playerId:Int;
 	var isAttached:Bool;
-	var bullets:FlxTypedGroup<Bullet>;
 	var fireDelay:Float;
 	var angleHelper:FlxObject;
 
