@@ -20,7 +20,7 @@ class Player extends FlxSprite
 		init();
 	}
 
-	function init() 
+	function init()
 	{
 		ID == 0 ? makeGraphic(32, 64, FlxColor.RED) : makeGraphic(32, 64, FlxColor.BLUE);
 		setPosition(FlxG.width / 2 - width / 2, FlxG.height / 2 - height / 2);

@@ -11,10 +11,6 @@ class Configuration
 		Assets.loadText(filePath, function (data:String):Void {
 			var xml = Xml.parse(data);
 			var config = new Fast(xml.firstElement());
-
-			trace(config.node.test.att.name);
 		});
 	}
-
-
 }
