@@ -50,6 +50,8 @@ class MenuState extends FlxState
 
 		enemyGroup = new EnemyGroup();
 		add(enemyGroup);
+
+		enemyGroup.spawn();
 	}
 
 	/**

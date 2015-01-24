@@ -4,6 +4,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
+import flixel.math.FlxVelocity;
 
 enum EnemyState {
 	Chasing;
@@ -19,6 +20,8 @@ class Enemy extends Spawnable
 	{
 		// TODO fazer o load com o loadRotatedGraphic
 		super(x, y, simpleGraphic);
+
+		trace('nasci em ($x,$y)');
 	}
 
 	override public function init()
@@ -42,7 +45,9 @@ class Enemy extends Spawnable
 
 	private function updateChase(elapsed:Float)
 	{
+		var point = new FlxPoint(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
 
+		FlxVelocity.moveTowardsPoint(this, point, 100);
 	}
 
 	private function updateCharge(elapsed:Float)
