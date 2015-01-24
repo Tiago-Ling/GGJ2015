@@ -95,7 +95,7 @@ class Thruster extends FlxGroup
 			return;
 
 		if (playerId == 0) {
-			if (ID == 0) { //left
+			if (ID == 4) { //left
 				if (FlxG.keys.pressed.LEFT && !isThrusting) {
 					isThrusting = true;
 					rocket.revive();
@@ -123,11 +123,11 @@ class Thruster extends FlxGroup
 				}
 			}
 		} else {
-			if (ID == 0) { //left
+			if (ID == 4) { //left
 				if (FlxG.keys.pressed.A) {
 					isThrusting = true;
 					rocket.revive();
-					rocket.setPosition(gfx.x - 20, gfx.y);
+					rocket.setPosition(gfx.x + 52, gfx.y);
 					rocket.start(true, 0.3, 10);
 					FlxG.camera.scroll.x -= 100 * elapsed;
 				}
