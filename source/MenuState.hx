@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup;
 import flixel.util.FlxSpriteUtil;
 
 /**
@@ -18,6 +19,10 @@ class MenuState extends FlxState
 	var pA:Player;
 	var pB:Player;
 	var ship:Ship;
+
+	var meteorGroup:MeteorGroup;
+	var pickupGroup:PickupGroup;
+	var enemyGroup:EnemyGroup;
 
 	/**
 	 * Function that is called up when to state is created to set it up.
@@ -36,6 +41,15 @@ class MenuState extends FlxState
 		var h = 321;
 		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100 );
 		add(ship);
+
+		meteorGroup = new MeteorGroup();
+		add(meteorGroup);
+
+		pickupGroup = new PickupGroup();
+		add(pickupGroup);
+
+		enemyGroup = new EnemyGroup();
+		add(enemyGroup);
 	}
 
 	/**
@@ -55,6 +69,16 @@ class MenuState extends FlxState
 		super.update(elapsed);
 
 		FlxG.camera.scroll.y -= 100 * elapsed;
+
+		// TODO spawn test: remover
+		if (meteorGroup.countDead() == -1 && meteorGroup.countLiving() == -1)
+		{
+			meteorGroup.spawn();
+		}
+		if (meteorGroup.countDead() >= 0 && meteorGroup.countLiving() == 0)
+		{
+			meteorGroup.spawn();
+		}
 
 		handleSlotInteraction();
 
