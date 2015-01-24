@@ -7,6 +7,8 @@ import flixel.util.FlxColor;
 
 class Player extends FlxSprite
 {
+	public var isAttached:Bool;
+
 	var ship:FlxSprite;
 
 	public function new (X:Float, Y:Float, id:Int, ?SimpleGraphic:flixel.system.FlxAssets.FlxGraphicAsset)
@@ -20,7 +22,7 @@ class Player extends FlxSprite
 
 	function init() 
 	{
-		makeGraphic(32, 64, FlxColor.RED);
+		ID == 0 ? makeGraphic(32, 64, FlxColor.RED) : makeGraphic(32, 64, FlxColor.BLUE);
 		setPosition(FlxG.width / 2 - width / 2, FlxG.height / 2 - height / 2);
 		scrollFactor.set(0, 0);
 
@@ -44,6 +46,9 @@ class Player extends FlxSprite
 
 	function handleInput()
 	{
+		if (isAttached)
+			return;
+
 		if (ID == 0) {
 			if (FlxG.keys.pressed.UP) {
 				velocity.y = -200;

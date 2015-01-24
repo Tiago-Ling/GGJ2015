@@ -43,28 +43,60 @@ class Cannon extends FlxSprite
 
 	function handleInput() 
 	{
-		if (ID == 0) {
-			if (FlxG.keys.pressed.O) {
-				if (angle < 0) {
-					angle += 2;
-				}
-			}
+		if (!isAttached)
+			return;
 
-			if (FlxG.keys.pressed.P) {
-				if (angle > -120) {
-					angle -= 2;
+		//Player 1 commands
+		if (playerId == 0) {
+			if (ID == 0) {
+				if (FlxG.keys.pressed.LEFT) {
+					if (angle < 0) {
+						angle += 2;
+					}
 				}
-			}
-		} else {
-			if (FlxG.keys.pressed.O) {
-				if (angle > 0) {
-					angle -= 2;
-				}
-			}
 
-			if (FlxG.keys.pressed.P) {
-				if (angle < 120) {
-					angle += 2;
+				if (FlxG.keys.pressed.RIGHT) {
+					if (angle > -120) {
+						angle -= 2;
+					}
+				}
+			} else {
+				if (FlxG.keys.pressed.LEFT) {
+					if (angle > 0) {
+						angle -= 2;
+					}
+				}
+
+				if (FlxG.keys.pressed.RIGHT) {
+					if (angle < 120) {
+						angle += 2;
+					}
+				}
+			}
+		} else {	//Player 2 commands 
+			if (ID == 0) {
+				if (FlxG.keys.pressed.D) {
+					if (angle < 0) {
+						angle += 2;
+					}
+				}
+
+				if (FlxG.keys.pressed.A) {
+					if (angle > -120) {
+						angle -= 2;
+					}
+				}
+			} else {
+				if (FlxG.keys.pressed.D) {
+					if (angle > 0) {
+						angle -= 2;
+					}
+				}
+
+				if (FlxG.keys.pressed.A) {
+					if (angle < 120) {
+						angle += 2;
+					}
 				}
 			}
 		}

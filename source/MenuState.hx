@@ -15,8 +15,6 @@ import flixel.util.FlxSpriteUtil;
  */
 class MenuState extends FlxState
 {
-	var pA:Player;
-	var pB:Player;
 	var ship:Ship;
 
 	/**
@@ -36,13 +34,6 @@ class MenuState extends FlxState
 		ship = new Ship(FlxG.width / 2 - w / 2, FlxG.height / 2 - h / 2);
 		add(ship);
 
-		pA = new Player(300, 300, 0);
-		pA.boundTo(ship);
-		add(pA);
-
-		pB = new Player(350, 300, 1);
-		pB.boundTo(ship);
-		add(pB);
 	}
 	
 	/**
@@ -62,5 +53,19 @@ class MenuState extends FlxState
 		super.update(elapsed);
 
 		FlxG.camera.scroll.y -= 100 * elapsed;
+
+		handleSlotInteraction();
+	}
+
+	function handleSlotInteraction()
+	{
+		if (FlxG.keys.justReleased.E) {
+			FlxG.overlap(ship.players, ship.slots, function (a:Player, b:Cannon) {
+				if (a.isAttached)
+					ship.dettachPlayer(a.ID, b.ID);
+				else
+					ship.attachPlayer(a.ID, b.ID);
+			});
+		}
 	}
 }
