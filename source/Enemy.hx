@@ -42,6 +42,16 @@ class Enemy extends Spawnable
 
 	private function updateChase(elapsed:Float)
 	{
-		var position = new FlxPoint(x, y);
+
 	}
+
+	private function updateCharge(elapsed:Float)
+	{
+	}
+
+	private function updateFire(elapsed:Float)
+	{
+
+	}
+
 }
