@@ -11,15 +11,15 @@ class EnemyGroup extends FlxGroup
 		{
 			// TODO condição de spawn aleatoria?
 
-			var meteor = cast(this.getFirstDead(), Enemy);
-			meteor.x = FlxG.width / 2 - 16;
-			meteor.y = FlxG.camera.scroll.y;
-			meteor.revive();
+			var enemy = cast(this.getFirstDead(), Enemy);
+			enemy.x = FlxG.camera.scroll.x;
+			enemy.y = FlxG.camera.scroll.y;
+			enemy.revive();
 		}
 		else
 		{
-			var meteor = new Meteor(FlxG.width / 2 - 16, 0);
-			this.add(meteor);
+			var enemy = new Enemy(FlxG.camera.scroll.x, FlxG.camera.scroll.y);
+			this.add(enemy);
 		}
 	}
 }
