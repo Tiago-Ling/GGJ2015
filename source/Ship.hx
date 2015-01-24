@@ -12,6 +12,7 @@ class Ship extends FlxGroup
 {
 	public var players:FlxGroup;
 	public var slots:FlxGroup;
+	public var bullets:FlxGroup;
 
 	var hull:FlxSprite;
 	var cannonLeft:Cannon;
@@ -41,6 +42,7 @@ class Ship extends FlxGroup
 
 		players = new FlxGroup();
 		slots = new FlxGroup();
+		bullets = new FlxGroup();
 
 		//533, 321
 		hull = new FlxSprite(pos.x, pos.y);
@@ -53,10 +55,12 @@ class Ship extends FlxGroup
 
 		cannonLeft = new Cannon(pos.x + hull.width / 4 - 55, pos.y - 70, 0);
 		slots.add(cannonLeft);
+		bullets.add(cannonLeft.bullets);
 		add(cannonLeft);
 
 		cannonRight = new Cannon(pos.x + (hull.width / 4) * 3 - 10, pos.y - 70, 1);
 		slots.add(cannonRight);
+		bullets.add(cannonRight.bullets);
 		add(cannonRight);
 
 		//Add grabbers here (ids 3 and 4)
