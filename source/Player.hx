@@ -22,7 +22,9 @@ class Player extends FlxSprite
 
 	function init()
 	{
-		ID == 0 ? makeGraphic(32, 64, FlxColor.RED) : makeGraphic(32, 64, FlxColor.BLUE);
+		var w = 24;
+		var h = 48;
+		ID == 0 ? makeGraphic(w, h, FlxColor.RED) : makeGraphic(w, h, FlxColor.BLUE);
 		scrollFactor.set(0, 0);
 
 		this.acceleration.set(0, 0);

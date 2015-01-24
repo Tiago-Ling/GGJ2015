@@ -40,7 +40,7 @@ class Cannon extends FlxGroup
 		add(bullets);
 
 		gfx = new FlxSprite(X, Y);
-		gfx.loadGraphic(AssetPaths.cannon2__png);
+		gfx.loadGraphic(AssetPaths.cannon__png);
 		gfx.origin.set(gfx.width / 2, (gfx.height / 4) * 3);
 		gfx.scrollFactor.set(0, 0);
 		gfx.ID = id;

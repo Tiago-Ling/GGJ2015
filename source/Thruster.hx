@@ -36,7 +36,8 @@ class Thruster extends FlxGroup
 		isThrusting = false;
 
 		gfx = new FlxSprite(position.x, position.y);
-		gfx.makeGraphic(32, 32, FlxColor.YELLOW);
+		// gfx.makeGraphic(32, 32, FlxColor.YELLOW);
+		gfx.loadGraphic(AssetPaths.truster___png);
 		gfx.scrollFactor.set(0, 0);
 		gfx.ID = ID;
 		add(gfx);
@@ -54,11 +55,13 @@ class Thruster extends FlxGroup
 		rocket.acceleration.set(15, 15, 45, 45);
 		rocket.speed.set(5, 15, 30, 60);
 		rocket.lifespan.set(10, 50);
-		if (ID == 4) {
-			rocket.launchAngle.set(-45, -90);
-		} else {
-			rocket.launchAngle.set(45 , 90);
-		}
+		rocket.launchAngle.set(45 , 90);
+		
+		// if (ID == 4) {
+		// 	rocket.launchAngle.set(-45, -90);
+		// } else {
+		// 	rocket.launchAngle.set(45 , 90);
+		// }
 
 		// explosion.setScale(0.5,1,1.5,3);
 		// explosion.setAlpha(0.2,0.4,0.6,0.8);
@@ -101,7 +104,7 @@ class Thruster extends FlxGroup
 					rocket.revive();
 					rocket.setPosition(gfx.x - 20, gfx.y);
 					rocket.start(true, 0.3, 10);
-					FlxG.camera.scroll.x -= 100 * elapsed;
+					FlxG.camera.scroll.x += 100 * elapsed;
 				}
 
 				if (FlxG.keys.justReleased.LEFT && isThrusting) {

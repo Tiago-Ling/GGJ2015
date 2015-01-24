@@ -37,9 +37,9 @@ class MenuState extends FlxState
 		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__png, 1, 1, true, true);
 		add(bg);
 
-		var w = 333;
-		var h = 321;
-		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100 );
+		var w = 145;
+		var h = 160;
+		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100);
 		add(ship);
 
 		meteorGroup = new MeteorGroup();

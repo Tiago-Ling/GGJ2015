@@ -45,41 +45,45 @@ class Ship extends FlxGroup
 		//533, 321
 		hull = new FlxSprite(pos.x, pos.y);
 		hull.loadGraphic(AssetPaths.ship__png);
-		// hull.offset.set(100, 0);
-		// hull.width -= 200;
+		hull.offset.set(50, 120);
+		hull.width -= 100;
+		hull.height -= 240;
 		hull.scrollFactor.set(0, 0);
 		add(hull);
 
-		cannonLeft = new Cannon(pos.x + hull.width / 4 - 25, pos.y, 0);
+		cannonLeft = new Cannon(pos.x + hull.width / 4 - 55, pos.y - 70, 0);
 		slots.add(cannonLeft);
 		add(cannonLeft);
 
-		cannonRight = new Cannon(pos.x + (hull.width / 4) * 3 - 10, pos.y, 1);
+		cannonRight = new Cannon(pos.x + (hull.width / 4) * 3 - 10, pos.y - 70, 1);
 		slots.add(cannonRight);
 		add(cannonRight);
 
 		//Add grabbers here (ids 3 and 4)
 
-		leftThruster = new Thruster(pos.x + hull.width / 4 - 100, pos.y + 150, 4);
+		leftThruster = new Thruster(pos.x + hull.width / 4 - 40, pos.y + 115, 4);
 		slots.add(leftThruster);
 		add(leftThruster);
 
-		rightThruster = new Thruster(pos.x + (hull.width / 4) * 3 + 50, pos.y + 150, 5);
+		rightThruster = new Thruster(pos.x + (hull.width / 4) * 3 - 5, pos.y + 115, 5);
 		slots.add(rightThruster);
 		add(rightThruster);
 
-		pA = new Player(pos.x + 100, pos.y + 200, 0);
+		pA = new Player(FlxG.width / 2 - 12, FlxG.height / 2 - 24, 0);
 		pA.boundTo(hull);
 		players.add(pA);
 		add(pA);
 
-		pB = new Player(pos.x + 150, pos.y + 200, 1);
+		pB = new Player(FlxG.width / 2 - 12, FlxG.height / 2 - 24, 1);
 		pB.boundTo(hull);
 		players.add(pB);
 		add(pB);
 
 		timer = new FlxTimer();
 
+		// hull.offset.set(50, 120);
+		// hull.width -= 100;
+		// hull.height -= 240;
 	}
 
 	/**

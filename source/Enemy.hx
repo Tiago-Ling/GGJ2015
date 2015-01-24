@@ -5,6 +5,7 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
+import flixel.math.FlxAngle;
 
 enum EnemyState {
 	Chasing;
@@ -22,16 +23,18 @@ class Enemy extends Spawnable
 		// TODO fazer o load com o loadRotatedGraphic
 		super(x, y, simpleGraphic);
 
-		chasePoint = FlxPoint.get(0, 0);
-
 		trace('nasci em ($x,$y)');
 	}
 
 	override public function init()
 	{
-		makeGraphic(32, 32, FlxColor.ORANGE);
+		// makeGraphic(32, 32, FlxColor.ORANGE);
+		loadGraphic(AssetPaths.nave__png);
 
 		state = Enemy.EnemyState.Chasing;
+
+		chasePoint = FlxPoint.get(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2 - 150);
+		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
 	}
 
 	override public function update(elapsed:Float)
@@ -48,8 +51,8 @@ class Enemy extends Spawnable
 
 	private function updateChase(elapsed:Float)
 	{
-		// chasePoint.set(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
-		// FlxVelocity.moveTowardsPoint(this, chasePoint, 100);
+		chasePoint.set(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2 - 150);
+		FlxVelocity.moveTowardsPoint(this, chasePoint, 100);
 	}
 
 	private function updateCharge(elapsed:Float)
