@@ -10,18 +10,19 @@ enum EnemyState {
 	Chasing;
 	Charging;
 	Firing;
+	Fleeing;
 }
 
 class Enemy extends Spawnable
 {
 	private var state:EnemyState;
 
+	private var elapsedCharge:Float;
+
 	public function new(x:Float, y:Float, ?simpleGraphic:FlxGraphicAsset)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
 		super(x, y, simpleGraphic);
-
-		trace('nasci em ($x,$y)');
 	}
 
 	override public function init()
@@ -41,6 +42,8 @@ class Enemy extends Spawnable
 			updateCharge(elapsed);
 		else if (state == EnemyState.Firing)
 			updateFire(elapsed);
+		else if (state == EnemyState.Fleeing)
+			updateFlee(elapsed);
 	}
 
 	private function updateChase(elapsed:Float)
@@ -48,13 +51,33 @@ class Enemy extends Spawnable
 		var point = new FlxPoint(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
 
 		FlxVelocity.moveTowardsPoint(this, point, 100);
+
+		trace(point.distanceTo(this.getMidpoint()));
+
+		if (point.distanceTo(this.getMidpoint()) <= 100)
+		{
+			state = EnemyState.Charging;
+			trace("stop");
+		}
 	}
 
 	private function updateCharge(elapsed:Float)
 	{
+		elapsedCharge += elapsed;
+
+		if (elapsedCharge >= 1000)
+		{
+			state = EnemyState.Firing;
+			trace("PAU");
+		}
 	}
 
 	private function updateFire(elapsed:Float)
+	{
+
+	}
+
+	private function updateFlee(elapsed:Float)
 	{
 
 	}
