@@ -8,6 +8,7 @@ import flixel.math.FlxVelocity;
 import flixel.math.FlxAngle;
 
 enum EnemyState {
+	Idle;
 	Chasing;
 	Charging;
 	Firing;
@@ -28,13 +29,18 @@ class Enemy extends Spawnable
 
 	override public function init()
 	{
-		// makeGraphic(32, 32, FlxColor.ORANGE);
 		loadGraphic(AssetPaths.nave__png);
 
-		state = Enemy.EnemyState.Chasing;
+		state = Enemy.EnemyState.Idle;
 
 		chasePoint = FlxPoint.get(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2 - 150);
 		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
+	}
+
+	override public function activate()
+	{
+		revive();
+		state = Enemy.EnemyState.Chasing;
 	}
 
 	override public function update(elapsed:Float)
@@ -57,6 +63,7 @@ class Enemy extends Spawnable
 
 	private function updateCharge(elapsed:Float)
 	{
+		
 	}
 
 	private function updateFire(elapsed:Float)

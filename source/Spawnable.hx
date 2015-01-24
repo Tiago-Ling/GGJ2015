@@ -18,6 +18,11 @@ class Spawnable extends FlxSprite
 
 	}
 
+	public function activate()
+	{
+		
+	}
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);

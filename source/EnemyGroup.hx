@@ -18,6 +18,7 @@ class EnemyGroup extends FlxGroup
 	{
 		for (i in 0...20) {
 			var enemy = new Enemy(0, 0);
+			enemy.kill();
 			add(enemy);
 		}
 	}
@@ -31,7 +32,7 @@ class EnemyGroup extends FlxGroup
 			var enemy = cast(this.getFirstDead(), Enemy);
 			enemy.x = position.x + FlxG.camera.scroll.x;
 			enemy.y = position.y + FlxG.camera.scroll.y;
-			enemy.revive();
+			enemy.activate();
 		}
 		else
 		{
