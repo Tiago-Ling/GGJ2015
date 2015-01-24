@@ -49,13 +49,13 @@ class Cannon extends FlxSprite
 		//Player 1 commands
 		if (playerId == 0) {
 			if (ID == 0) {
-				if (FlxG.keys.pressed.LEFT) {
+				if (FlxG.keys.pressed.RIGHT) {
 					if (angle < 0) {
 						angle += 2;
 					}
 				}
 
-				if (FlxG.keys.pressed.RIGHT) {
+				if (FlxG.keys.pressed.LEFT) {
 					if (angle > -120) {
 						angle -= 2;
 					}
@@ -87,13 +87,13 @@ class Cannon extends FlxSprite
 					}
 				}
 			} else {
-				if (FlxG.keys.pressed.D) {
+				if (FlxG.keys.pressed.A) {
 					if (angle > 0) {
 						angle -= 2;
 					}
 				}
 
-				if (FlxG.keys.pressed.A) {
+				if (FlxG.keys.pressed.D) {
 					if (angle < 120) {
 						angle += 2;
 					}
