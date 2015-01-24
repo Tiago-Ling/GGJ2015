@@ -3,6 +3,7 @@ package ;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import flixel.FlxG;
+import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 
@@ -19,6 +20,8 @@ class Enemy extends Spawnable
 
 	private var elapsedCharge:Float;
 
+	private var spawnPoint:FlxPoint;
+
 	public function new(x:Float, y:Float, ?simpleGraphic:FlxGraphicAsset)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
@@ -30,6 +33,7 @@ class Enemy extends Spawnable
 		makeGraphic(32, 32, FlxColor.ORANGE);
 
 		state = Enemy.EnemyState.Chasing;
+		elapsedCharge = 0;
 	}
 
 	override public function update(elapsed:Float)
@@ -52,11 +56,13 @@ class Enemy extends Spawnable
 
 		FlxVelocity.moveTowardsPoint(this, point, 100);
 
-		trace(point.distanceTo(this.getMidpoint()));
+		trace(this.getMidpoint());
+		trace(point);
 
-		if (point.distanceTo(this.getMidpoint()) <= 100)
+		if (point.distanceTo(this.getMidpoint()) <= 250)
 		{
 			state = EnemyState.Charging;
+			elapsedCharge = 0;
 			trace("stop");
 		}
 	}
@@ -64,6 +70,9 @@ class Enemy extends Spawnable
 	private function updateCharge(elapsed:Float)
 	{
 		elapsedCharge += elapsed;
+
+		this.velocity.x = 0;
+		this.velocity.y = -100;
 
 		if (elapsedCharge >= 1000)
 		{
