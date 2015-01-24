@@ -32,14 +32,14 @@ class MenuState extends FlxState
 		super.create();
 
 		this.bgColor = 0xff444444;
-		// FlxG.debugger.drawDebug = true;
+		FlxG.debugger.drawDebug = true;
 
-		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__jpeg, 1, 1, true, true);
+		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__png, 1, 1, true, true);
 		add(bg);
 
-		var w = 333;
-		var h = 321;
-		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100 );
+		var w = 145;
+		var h = 160;
+		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100);
 		add(ship);
 
 		meteorGroup = new MeteorGroup();
