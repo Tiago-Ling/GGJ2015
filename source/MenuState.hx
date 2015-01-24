@@ -32,22 +32,15 @@ class MenuState extends FlxState
 		super.create();
 
 		this.bgColor = 0xff444444;
+		// FlxG.debugger.drawDebug = true;
 
 		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__jpeg, 1, 1, true, true);
 		add(bg);
 
-		var w = 533;
+		var w = 333;
 		var h = 321;
-		ship = new Ship(FlxG.width / 2 - w / 2, FlxG.height / 2 - h / 2);
+		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100 );
 		add(ship);
-
-		pA = new Player(300, 300, 0);
-		pA.boundTo(ship);
-		add(pA);
-
-		pB = new Player(350, 300, 1);
-		pB.boundTo(ship);
-		add(pB);
 
 		meteorGroup = new MeteorGroup();
 		add(meteorGroup);
@@ -87,6 +80,8 @@ class MenuState extends FlxState
 			meteorGroup.spawn();
 		}
 
+		handleSlotInteraction();
+
 		if (FlxG.keys.justReleased.F12)
 		{
 			Configuration.load(AssetPaths.config__xml);
@@ -95,12 +90,18 @@ class MenuState extends FlxState
 
 	function handleSlotInteraction()
 	{
-		if (FlxG.keys.justReleased.E) {
-			FlxG.overlap(ship.players, ship.slots, function (a:Player, b:Cannon) {
-				if (a.isAttached)
+		if (FlxG.keys.justPressed.E) {
+			var didOverlap:Bool = false;
+			FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
+				if (didOverlap)
+					return;
+
+				didOverlap = true;
+				if (a.isAttached) {
 					ship.dettachPlayer(a.ID, b.ID);
-				else
+				} else {
 					ship.attachPlayer(a.ID, b.ID);
+				}
 			});
 		}
 	}
