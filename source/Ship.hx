@@ -45,8 +45,8 @@ class Ship extends FlxGroup
 		//533, 321
 		hull = new FlxSprite(pos.x, pos.y);
 		hull.loadGraphic(AssetPaths.ship__png);
-		hull.offset.set(100, 0);
-		hull.width -= 200;
+		// hull.offset.set(100, 0);
+		// hull.width -= 200;
 		hull.scrollFactor.set(0, 0);
 		add(hull);
 

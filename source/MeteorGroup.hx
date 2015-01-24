@@ -12,13 +12,13 @@ class MeteorGroup extends FlxGroup
 			// TODO condição de spawn aleatoria?
 
 			var meteor = cast(this.getFirstDead(), Meteor);
-			meteor.x = FlxG.width / 2 - 16;
+			meteor.x = FlxG.camera.scroll.x + FlxG.width / 2 - 16;
 			meteor.y = FlxG.camera.scroll.y;
 			meteor.revive();
 		}
 		else
 		{
-			var meteor = new Meteor(FlxG.width / 2 - 16, 0);
+			var meteor = new Meteor(FlxG.camera.scroll.x + FlxG.width / 2 - 16, FlxG.camera.scroll.y);
 			this.add(meteor);
 		}
 	}

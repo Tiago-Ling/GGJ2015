@@ -32,7 +32,7 @@ class MenuState extends FlxState
 		super.create();
 
 		this.bgColor = 0xff444444;
-		// FlxG.debugger.drawDebug = true;
+		FlxG.debugger.drawDebug = true;
 
 		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__png, 1, 1, true, true);
 		add(bg);
