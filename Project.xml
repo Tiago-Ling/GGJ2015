@@ -29,7 +29,8 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" embed="false" />
+	<assets path="assets" embed="false" if="desktop"/>
+	<assets path="assets" embed="true" if="flash"/>
 
 	<!--------------------------------LIBRARIES------------------------------------->
 

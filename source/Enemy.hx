@@ -15,11 +15,14 @@ enum EnemyState {
 class Enemy extends Spawnable
 {
 	private var state:EnemyState;
+	var chasePoint:FlxPoint;
 
 	public function new(x:Float, y:Float, ?simpleGraphic:FlxGraphicAsset)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
 		super(x, y, simpleGraphic);
+
+		chasePoint = FlxPoint.get(0, 0);
 
 		trace('nasci em ($x,$y)');
 	}
@@ -45,9 +48,8 @@ class Enemy extends Spawnable
 
 	private function updateChase(elapsed:Float)
 	{
-		var point = new FlxPoint(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
-
-		FlxVelocity.moveTowardsPoint(this, point, 100);
+		// chasePoint.set(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
+		// FlxVelocity.moveTowardsPoint(this, chasePoint, 100);
 	}
 
 	private function updateCharge(elapsed:Float)

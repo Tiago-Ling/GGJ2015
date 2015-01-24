@@ -3,21 +3,29 @@ package ;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
+// import flixel.group.FlxTypedGroup;
 import flixel.util.FlxColor;
+import flixel.math.FlxAngle;
 
 class Cannon extends FlxGroup
 {
+	public static var BULLET_DELAY:Float = 25;
+	public static var BULLET_SPEED:Float = 600;
+
 	var gfx:FlxSprite;
 	var playerId:Int;
 	var isAttached:Bool;
 
-	var bullets:FlxGroup;
+	var bullets:FlxTypedGroup<Bullet>;
+
+	var fireDelay:Float;
 
 	public function new(X:Float, Y:Float, id:Int) 
 	{
 		super();
 
 		this.ID = id;
+		fireDelay = 0;
 
 		init(X, Y, id);
 	}	
@@ -31,11 +39,9 @@ class Cannon extends FlxGroup
 		gfx.ID = id;
 		add(gfx);
 
-		bullets = new FlxGroup(50);
+		bullets = new FlxTypedGroup<Bullet>(50);
 		for (i in 0...50) {
-			var bullet = new FlxSprite(0, 0);
-			bullet.makeGraphic(8, 16, FlxColor.RED);
-			bullet.kill();
+			var bullet = new Bullet(0, 0);
 			bullets.add(bullet);
 		}
 		add(bullets);
@@ -54,6 +60,9 @@ class Cannon extends FlxGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (fireDelay > 0)
+			fireDelay -= 100 * elapsed;
 
 		handleInput();
 	}
@@ -118,14 +127,17 @@ class Cannon extends FlxGroup
 			}
 		}
 
-		if (FlxG.keys.pressed.SPACE) {
-			var bullet = cast(bullets.getFirstDead(), FlxSprite);
+		if (FlxG.keys.pressed.SPACE && fireDelay <= 0) {
+			var bullet = bullets.getFirstDead();
 			if (bullet != null) {
+				trace('bullet fired');
 				bullet.x = gfx.x;
 				bullet.y = gfx.y;
-				bullet.angle = gfx.angle;
-				bullet.velocity.set(0, 300);
+				// bullet.angle = gfx.angle;
+				bullet.velocity.set(Math.cos(gfx.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(gfx.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+				bullet.launched = true;
 				bullet.revive();
+				fireDelay = BULLET_DELAY;
 			}
 		}
 	}

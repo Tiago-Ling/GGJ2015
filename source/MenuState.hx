@@ -34,7 +34,7 @@ class MenuState extends FlxState
 		this.bgColor = 0xff444444;
 		// FlxG.debugger.drawDebug = true;
 
-		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__jpeg, 1, 1, true, true);
+		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__png, 1, 1, true, true);
 		add(bg);
 
 		var w = 333;
