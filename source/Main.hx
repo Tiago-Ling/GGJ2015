@@ -51,8 +51,7 @@ class Main extends Sprite
 
 	private function setupGame():Void
 	{
-		var config = new Configuration();
-		config.load(AssetPaths.config__xml);
+		Configuration.load(AssetPaths.config__xml);
 
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;

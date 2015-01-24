@@ -20,7 +20,7 @@ class MenuState extends FlxState
 	var ship:Ship;
 
 	/**
-	 * Function that is called up when to state is created to set it up. 
+	 * Function that is called up when to state is created to set it up.
 	 */
 	override public function create():Void
 	{
@@ -44,9 +44,9 @@ class MenuState extends FlxState
 		pB.boundTo(ship);
 		add(pB);
 	}
-	
+
 	/**
-	 * Function that is called when this state is destroyed - you might want to 
+	 * Function that is called when this state is destroyed - you might want to
 	 * consider setting all objects this state uses to null to help garbage collection.
 	 */
 	override public function destroy():Void
@@ -62,5 +62,10 @@ class MenuState extends FlxState
 		super.update(elapsed);
 
 		FlxG.camera.scroll.y -= 100 * elapsed;
+
+		if (FlxG.keys.justReleased.F12)
+		{
+			Configuration.load(AssetPaths.config__xml);
+		}
 	}
 }
