@@ -36,13 +36,11 @@ class Thruster extends FlxGroup
 		isThrusting = false;
 
 		gfx = new FlxSprite(position.x, position.y);
-		// gfx.makeGraphic(32, 32, FlxColor.YELLOW);
 		gfx.loadGraphic(AssetPaths.truster___png);
 		gfx.scrollFactor.set(0, 0);
 		gfx.ID = ID;
 		add(gfx);
 
-		// rocket = new FlxTrail(gfx, AssetPaths.granadeBlow__png, 64, 2, 0.5, 0.1);
 		rocket = new FlxEmitter(position.x, position.y);
 
 		rocket.loadParticles(AssetPaths.granadeBlow__png, 50, 16, true, true);

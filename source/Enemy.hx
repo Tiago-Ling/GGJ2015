@@ -7,6 +7,8 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.math.FlxAngle;
+import flixel.group.FlxGroup;
+import flixel.effects.particles.FlxEmitter;
 
 enum EnemyState {
 	Idle;
@@ -32,13 +34,15 @@ class Enemy extends Spawnable
 	private var spawn:FlxPoint;
 
 	public var chaseVelocity:FlxPoint;
+	var explosions:FlxTypedGroup<FlxEmitter>;
 
-	public function new(x:Float, y:Float, bullets:FlxTypedGroup<Bullet>)
+	public function new(x:Float, y:Float, explosions:FlxTypedGroup<FlxEmitter>, bullets:FlxTypedGroup<Bullet>)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
 		super(x, y);
 
 		this.bullets = bullets;
+		this.explosions = explosions;
 
 		originalSpawn = new FlxPoint(x, y);
 		spawn = new FlxPoint();
@@ -75,7 +79,7 @@ class Enemy extends Spawnable
 		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
 		state = Enemy.EnemyState.Chasing;
 
-		health = 3;
+		health = 2;
 
 		revive();
 	}
@@ -175,8 +179,16 @@ class Enemy extends Spawnable
 		if (this.health > 0) {
 			trace('Damage taken $health');
 			health -= dmg;
-			FlxG.sound.play(AssetPaths.SFX_Strike__wav, 1);
+			//FlxG.sound.play(AssetPaths.explosion__wav, 1);
 		} else {
+
+			// var emitter = explosions.recycle();
+			var emitter = explosions.getFirstDead();
+			// var center = this.getMidpoint();
+			// emitter.setPosition(center.x, center.y);
+			emitter.focusOn(this);
+			emitter.start(true, 0.3, 10);
+			emitter.revive();
 			dispose();
 		}
 	}
