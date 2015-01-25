@@ -3,6 +3,7 @@ package ;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.util.FlxColor;
 
 class GameOverState extends FlxState
 {
@@ -12,8 +13,10 @@ class GameOverState extends FlxState
 	{
 		super.create();
 
+		FlxG.mouse.visible = false;
+
 		bg = new FlxSprite();
-		bg.loadGraphic(AssetPaths.gameover__png);
+		bg.loadGraphic(AssetPaths.game_over__jpg);
 		add(bg);
 	}
 
@@ -26,7 +29,10 @@ class GameOverState extends FlxState
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.pressed.ESCAPE)
-			FlxG.switchState(new IntroState());
+		if (FlxG.keys.justPressed.ANY) {
+			FlxG.camera.fade(FlxColor.BLACK,0.3, false, function () {
+				FlxG.switchState(new IntroState());
+			});
+		}
 	}
 }

@@ -49,7 +49,7 @@ class Player extends FlxSprite
 			scale.set(0.65, 0.65);
 		}
 
-		animation.play('idle_top');
+		animation.play('idle_down');
 		scrollFactor.set(0, 0);
 
 		this.acceleration.set(0, 0);

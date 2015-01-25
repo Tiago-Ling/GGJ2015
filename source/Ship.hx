@@ -108,12 +108,12 @@ class Ship extends FlxGroup
 		slots.add(hullRepair);
 		add(hullRepair);
 
-		pA = new Player(FlxG.width / 2 - 12, FlxG.height / 2 - 24, 0);
+		pA = new Player(FlxG.width / 2 - 54, FlxG.height / 2 + 28, 0);
 		pA.boundTo(hull);
 		players.add(pA);
 		add(pA);
 
-		pB = new Player(FlxG.width / 2 - 12, FlxG.height / 2 - 24, 1);
+		pB = new Player(FlxG.width / 2 + 24, FlxG.height / 2 + 24, 1);
 		pB.boundTo(hull);
 		players.add(pB);
 		add(pB);
@@ -204,8 +204,6 @@ class Ship extends FlxGroup
 		}
 
 		pId == 0 ? pA.isAttached = true : pB.isAttached = true;
-
-		trace('Attached player $pId to slot $slotId -> isAttached : ${pId == 0 ? pA.isAttached : pB.isAttached}');
 	}
 
 	public function dettachPlayer(pId:Int, slotId:Int)
@@ -228,8 +226,6 @@ class Ship extends FlxGroup
 		}
 
 		pId == 0 ? pA.isAttached = false : pB.isAttached = false;
-
-		trace('Dettached player $pId from slot $slotId -> isAttached : ${pId == 0 ? pA.isAttached : pB.isAttached}');
 
 	}
 
@@ -288,6 +284,7 @@ class Ship extends FlxGroup
 				}
 				i++;
 				if (t.loopsLeft == 0) {
+					
 					FlxG.camera.fade(FlxColor.BLACK,3,false,function () { FlxG.switchState(new GameOverState());});
 				}
 			}, 4);

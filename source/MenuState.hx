@@ -46,6 +46,8 @@ class MenuState extends FlxState
 		this.bgColor = 0xff444444;
 		// FlxG.debugger.drawDebug = true;
 
+		FlxG.mouse.visible = false;
+
 		// var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
 		var bg = new RunnerBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
 		bg.velocity.y = 100 * 0.3;
@@ -155,7 +157,7 @@ class MenuState extends FlxState
 						}
 					}
 				case 1:
-					if (FlxG.keys.justPressed.SLASH) {
+					if (FlxG.keys.justPressed.ENTER) {
 						if (didOverlap)
 							return;
 

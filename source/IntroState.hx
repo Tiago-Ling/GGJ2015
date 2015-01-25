@@ -3,6 +3,7 @@ package ;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.util.FlxColor;
 
 class IntroState extends FlxState
 {
@@ -12,8 +13,10 @@ class IntroState extends FlxState
 	{
 		super.create();
 
+		FlxG.mouse.visible = false;
+
 		bg = new FlxSprite();
-		bg.loadGraphic(AssetPaths.fundo__png);
+		bg.loadGraphic(AssetPaths.menu__jpg);
 		add(bg);
 	}
 
@@ -27,15 +30,23 @@ class IntroState extends FlxState
 		super.update(elapsed);
 
 		//Play the game
-		if (FlxG.keys.pressed.ENTER)
-			FlxG.switchState(new MenuState());
+		if (FlxG.keys.justPressed.ENTER) {
+			FlxG.camera.fade(FlxColor.BLACK,0.3, false, function () {
+				FlxG.switchState(new MenuState());
+			});
+		}
 
 		//Credits
-		if (FlxG.keys.pressed.ESCAPE)
-			FlxG.switchState(new CreditState());
+		if (FlxG.keys.justPressed.C) {
+			FlxG.camera.fade(FlxColor.BLACK,0.3, false, function () {
+				FlxG.switchState(new CreditState());
+			});
+		}
 
 		//How To
-		if (FlxG.keys.pressed.T)
-			FlxG.switchState(new TutorialState());
+		if (FlxG.keys.justPressed.X)
+			FlxG.camera.fade(FlxColor.BLACK,0.3, false, function () {
+				FlxG.switchState(new TutorialState());
+			});
 	}
 }

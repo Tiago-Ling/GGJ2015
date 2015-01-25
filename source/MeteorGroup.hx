@@ -62,12 +62,9 @@ class MeteorGroup extends FlxGroup
 			var spawnMeteor = FlxG.random.bool(currentChance);
 
 			if (spawnMeteor) {
-				trace('Meteor coming!');
 				timeCounter = METEOR_TIME;
 				currentChance = METEOR_CHANCE;
-
 				var index = FlxG.random.int(0, positions.length - 1);
-				trace('meteor position : ${positions[index]}');
 				spawnAt(positions[index]);
 			} else {
 				timeCounter = METEOR_TIME * 0.75;

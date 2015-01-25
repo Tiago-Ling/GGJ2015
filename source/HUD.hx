@@ -93,23 +93,18 @@ class HUD extends FlxGroup
 	function checkEvents()
 	{
 		if (totalTime >= 60) {
-			trace('Level 2');
 			level.text = 'Level 2';
 			enemyGroup.setSpawn(6, 4);
 		} else if (totalTime >= 120) {
-			trace('Level 3');
 			level.text = 'Level 3';
 			enemyGroup.setSpawn(6, 5);
 		}  else if (totalTime >= 180) {
-			trace('Level 4');
 			level.text = 'Level 4';
 			enemyGroup.setSpawn(6, 6);
 		} else if (totalTime >= 240) {
-			trace('Level 5');
 			level.text = 'Level 5';
 			enemyGroup.setSpawn(5, 6);
 		} else if (totalTime >= 300) {
-			trace('Level 6');
 			level.text = 'Level 6';
 			enemyGroup.setSpawn(5, 7);
 		} 
@@ -124,6 +119,7 @@ class HUD extends FlxGroup
 	{
 		scoreNum += value;
 		score.text = 'Score : $scoreNum';
+		Reg.score = scoreNum;
 	}
 
 	public function setHullHealth(percent:Float)

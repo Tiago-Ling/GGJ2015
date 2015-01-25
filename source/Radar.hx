@@ -32,12 +32,10 @@ class Radar extends FlxSprite
 	{
 		setPosition(x, y);
 
-		trace('Radar position : $x,$y');
-
 		revive();
 		alpha = 0.7;
 
-		FlxG.sound.play(AssetPaths.SFX_ALERT__wav, 0.5);
+		FlxG.sound.play(AssetPaths.SFX_ALERT__wav, 0.2);
 
 		timer.start(5, function (t:FlxTimer) {
 			FlxTween.tween(this, {alpha:0}, 0.3, {type:FlxTween.ONESHOT, onComplete:function (tween:FlxTween) {
