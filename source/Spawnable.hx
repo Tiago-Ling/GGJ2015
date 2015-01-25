@@ -18,7 +18,7 @@ class Spawnable extends FlxSprite
 
 	}
 
-	public function activate()
+	public function activate(x:Float, y:Float)
 	{
 		
 	}

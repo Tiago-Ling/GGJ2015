@@ -26,6 +26,8 @@ class Enemy extends Spawnable
 	private var originalSpawn:FlxPoint;
 	private var spawn:FlxPoint;
 
+	public var chaseVelocity:FlxPoint;
+
 	public function new(x:Float, y:Float, ?simpleGraphic:FlxGraphicAsset)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
@@ -33,6 +35,8 @@ class Enemy extends Spawnable
 
 		originalSpawn = new FlxPoint(x, y);
 		spawn = new FlxPoint();
+
+		chaseVelocity = FlxPoint.get(150, 300);
 
 		this.revive();
 	}
@@ -49,14 +53,15 @@ class Enemy extends Spawnable
 		state = Enemy.EnemyState.Idle;
 
 		elapsedCharge = 0;
-
-		chasePoint = FlxPoint.get(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2 - 150);
-		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
 	}
 
-	override public function activate()
+	override public function activate(x:Float, y:Float)
 	{
 		revive();
+		originalSpawn.set(x, y);
+		setPosition(x, y);
+		chasePoint = FlxPoint.get(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
+		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
 		state = Enemy.EnemyState.Chasing;
 	}
 
@@ -76,17 +81,13 @@ class Enemy extends Spawnable
 
 	private function updateChase(elapsed:Float)
 	{
-		chasePoint.set(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2 - 150);
-		FlxVelocity.moveTowardsPoint(this, chasePoint, 100);
-
-		trace(this.getMidpoint());
-		trace(chasePoint);
+		chasePoint.set(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
+		FlxVelocity.moveTowardsPoint(this, chasePoint, 200);
 
 		if (chasePoint.distanceTo(this.getMidpoint()) <= 250)
 		{
 			state = EnemyState.Charging;
 			elapsedCharge = 0;
-			trace("stop");
 		}
 	}
 
@@ -105,18 +106,28 @@ class Enemy extends Spawnable
 
 	private function updateFire(elapsed:Float)
 	{
-		trace("PAU");
 		state = EnemyState.Fleeing;
 		spawn.set(originalSpawn.x + FlxG.camera.scroll.x - width, originalSpawn.y + FlxG.camera.scroll.y - height);
-		this.angle = FlxAngle.angleBetweenPoint(this, spawn, true);
 	}
 
 	private function updateFlee(elapsed:Float)
 	{
-		spawn.set(originalSpawn.x + FlxG.camera.scroll.x - width, originalSpawn.y + FlxG.camera.scroll.y - height);
-		FlxVelocity.moveTowardsPoint(this, spawn, 200);
+		var w = width;
+		var h = height;
+		if (originalSpawn.x < 0)
+			w *= -1;
+		if (originalSpawn.y < 0)
+			h *= -1;
 
-		if (!this.isOnScreen())
+		// spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
+		spawn.set(originalSpawn.x + w, originalSpawn.y + h);
+		this.angle = FlxAngle.angleBetweenPoint(this, spawn, true);
+		var speed = FlxG.random.float(chaseVelocity.x, chaseVelocity.y);
+		FlxVelocity.moveTowardsPoint(this, spawn, speed);
+
+		if (!this.isOnScreen()) {
+			angle = 0;
 			kill();
+		}
 	}
 }

@@ -49,10 +49,10 @@ class MenuState extends FlxState
 		pickupGroup = new PickupGroup();
 		add(pickupGroup);
 
-		enemyGroup = new EnemyGroup();
+		enemyGroup = new EnemyGroup(5, 5);
 		add(enemyGroup);
 
-		enemyGroup.spawn(FlxPoint.weak(0, 0));
+		// enemyGroup.spawn(FlxPoint.weak(0, 0));
 	}
 
 	/**

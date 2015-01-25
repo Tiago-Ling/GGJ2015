@@ -87,7 +87,7 @@ class Cannon extends FlxGroup
 				}
 
 				if (FlxG.keys.pressed.LEFT) {
-					if (gfx.angle > -120) {
+					if (gfx.angle > -140) {
 						gfx.angle -= 2;
 						angleHelper.angle -= 2;
 					}
@@ -101,7 +101,7 @@ class Cannon extends FlxGroup
 				}
 
 				if (FlxG.keys.pressed.RIGHT) {
-					if (gfx.angle < 120) {
+					if (gfx.angle < 140) {
 						gfx.angle += 2;
 						angleHelper.angle += 2;
 					}
@@ -117,7 +117,7 @@ class Cannon extends FlxGroup
 				}
 
 				if (FlxG.keys.pressed.A) {
-					if (gfx.angle > -120) {
+					if (gfx.angle > -140) {
 						gfx.angle -= 2;
 						angleHelper.angle -= 2;
 					}
@@ -131,7 +131,7 @@ class Cannon extends FlxGroup
 				}
 
 				if (FlxG.keys.pressed.D) {
-					if (gfx.angle < 120) {
+					if (gfx.angle < 140) {
 						gfx.angle += 2;
 						angleHelper.angle += 2;
 					}
@@ -142,8 +142,8 @@ class Cannon extends FlxGroup
 		if (FlxG.keys.pressed.SPACE && fireDelay <= 0) {
 			var bullet = bullets.getFirstDead();
 			if (bullet != null) {
-				bullet.x = gfx.x + gfx.width / 2;
-				bullet.y = gfx.y + (gfx.height / 4) * 3;
+				bullet.x = gfx.x + gfx.width / 2 + FlxG.camera.scroll.x;
+				bullet.y = gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y;
 				bullet.angle = gfx.angle;
 				bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
 				bullet.launched = true;
