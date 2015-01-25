@@ -56,7 +56,7 @@ class Thruster extends FlxGroup
 		rocket.speed.set(5, 15, 30, 60);
 		rocket.lifespan.set(10, 50);
 		rocket.launchAngle.set(45 , 90);
-		
+
 		// if (ID == 4) {
 		// 	rocket.launchAngle.set(-45, -90);
 		// } else {

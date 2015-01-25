@@ -10,6 +10,8 @@ import flixel.math.FlxPoint;
 
 class Ship extends FlxGroup
 {
+	public var hullHealth:Int;
+
 	public var players:FlxGroup;
 	public var slots:FlxGroup;
 	public var bullets:FlxGroup;
@@ -19,6 +21,7 @@ class Ship extends FlxGroup
 	var cannonRight:Cannon;
 	var leftThruster:Thruster;
 	var rightThruster:Thruster;
+	var hullRepair:HullRepair;
 	var pA:Player;
 	var pB:Player;
 
@@ -39,6 +42,8 @@ class Ship extends FlxGroup
 	function init()
 	{
 		// this.scrollFactor.set(0, 0);
+
+		hullHealth = 100;
 
 		players = new FlxGroup();
 		slots = new FlxGroup();
@@ -73,6 +78,10 @@ class Ship extends FlxGroup
 		slots.add(rightThruster);
 		add(rightThruster);
 
+		hullRepair = new HullRepair(pos.x + hull.width / 2 - 20, pos.y + hull.height / 2 - 30, 6);
+		slots.add(hullRepair);
+		add(hullRepair);
+
 		pA = new Player(FlxG.width / 2 - 12, FlxG.height / 2 - 24, 0);
 		pA.boundTo(hull);
 		players.add(pA);
@@ -92,7 +101,7 @@ class Ship extends FlxGroup
 
 	/**
 	*
-	* slotId	
+	* slotId
 	* 0 - Cannon Left
 	* 1 - Cannon Right
 	* 2 - Grabber Left

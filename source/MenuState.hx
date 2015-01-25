@@ -22,11 +22,12 @@ class MenuState extends FlxState
 	var pB:Player;
 	var ship:Ship;
 
+	var hud:HUD;
+
 	var meteorGroup:MeteorGroup;
 	var pickupGroup:PickupGroup;
 	var enemyGroup:EnemyGroup;
 
-	var bg:FlxBackdrop;
 	/**
 	 * Function that is called up when to state is created to set it up.
 	 */
@@ -39,8 +40,12 @@ class MenuState extends FlxState
 		this.bgColor = 0xff444444;
 		FlxG.debugger.drawDebug = true;
 
-		bg = new FlxBackdrop(AssetPaths.download__png, 1, 1, true, true);
+		var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
+		var nebulosa = new FlxBackdrop(AssetPaths.bg_nebulosa__png, 0.7, 0.7, true, true);
+		var estrelas = new FlxBackdrop(AssetPaths.bg_estrelas__png, 1, 1, true, true);
 		add(bg);
+		add(nebulosa);
+		add(estrelas);
 
 		var w = 145;
 		var h = 160;
@@ -55,6 +60,9 @@ class MenuState extends FlxState
 
 		enemyGroup = new EnemyGroup(5, 5);
 		add(enemyGroup);
+
+		hud = new HUD();
+		add(hud);
 	}
 
 	/**
