@@ -19,7 +19,6 @@ class Bullet extends FlxSprite
 	function init()
 	{
 		makeGraphic(4, 8, FlxColor.RED);
-		scrollFactor.set(0, 0);
 		allowCollisions = FlxObject.NONE;
 		kill();
 	}
