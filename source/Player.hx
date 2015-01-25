@@ -27,14 +27,28 @@ class Player extends FlxSprite
 		var w = 24;
 		var h = 48;
 		// ID == 0 ? makeGraphic(w, h, FlxColor.RED) : makeGraphic(w, h, FlxColor.BLUE);
-		loadGraphic(AssetPaths.vsheet2__png, true, 41, 87);
-		scale.set(0.75, 0.75);
-		animation.add('idle_top', [0], 12, true);
-		animation.add('idle_down', [3], 12, true);
-		animation.add('idle_right', [6], 12, true);
-		animation.add('walk_top',[0,1,2],12,true);
-		animation.add('walk_down',[3,4,5],12,true);
-		animation.add('walk_right',[6,7,8,9],12,true);
+		if (ID == 0) {
+			loadGraphic(AssetPaths.vsheet2__png, true, 41, 87);
+			animation.add('idle_top', [0], 12, true);
+			animation.add('idle_down', [3], 12, true);
+			animation.add('idle_right', [6], 12, true);
+			animation.add('walk_top',[0,1,2],12,true);
+			animation.add('walk_down',[3,4,5],12,true);
+			animation.add('walk_right',[6,7,8,9],12,true);
+			scale.set(0.75, 0.75);
+		} else {
+			loadGraphic(AssetPaths.botsheet__png, true, 52, 97);
+			animation.add('idle_top', [3], 12, true);
+			animation.add('idle_down', [0], 12, true);
+			animation.add('idle_right', [6], 12, true);
+			animation.add('idle_left', [9], 12, true);
+			animation.add('walk_top',[3,4,5],12,true);
+			animation.add('walk_down',[0,1,2],12,true);
+			animation.add('walk_right',[9,10,11],12,true);
+			animation.add('walk_left',[6,7,8],12,true);
+			scale.set(0.65, 0.65);
+		}
+
 		animation.play('idle_top');
 		scrollFactor.set(0, 0);
 
@@ -81,15 +95,13 @@ class Player extends FlxSprite
 
 			if (FlxG.keys.pressed.LEFT) {
 				velocity.x = -200;
-				animation.play('walk_right');
-				this.flipX = true;
-				idleAnim = 'idle_right';
+				animation.play('walk_left');
+				idleAnim = 'idle_left';
 			}
 
 			if (FlxG.keys.pressed.RIGHT) {
 				velocity.x = 200;
 				animation.play('walk_right');
-				this.flipX = false;
 				idleAnim = 'idle_right';
 			}
 
