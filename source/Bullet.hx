@@ -3,6 +3,7 @@ package ;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
+import flixel.FlxG;
 
 class Bullet extends FlxSprite
 {
@@ -19,7 +20,7 @@ class Bullet extends FlxSprite
 	function init()
 	{
 		makeGraphic(4, 8, FlxColor.RED);
-		allowCollisions = FlxObject.NONE;
+		// allowCollisions = FlxObject.NONE;
 		kill();
 	}
 
@@ -33,4 +34,10 @@ class Bullet extends FlxSprite
 		}
 	}
 
+	public function dispose()
+	{
+		kill();
+		launched = false;
+		setPosition(FlxG.width / 2 - 2 + FlxG.camera.scroll.x, FlxG.height / 2 - 4 + FlxG.camera.scroll.y);
+	}
 }
