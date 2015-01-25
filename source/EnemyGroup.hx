@@ -4,6 +4,7 @@ import flixel.group.FlxGroup;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.effects.particles.FlxEmitter;
+import flixel.util.FlxColor;
 
 class EnemyGroup extends FlxGroup
 {
@@ -40,7 +41,7 @@ class EnemyGroup extends FlxGroup
 	{
 		bullets = new FlxTypedGroup<Bullet>(50);
 		for (i in 0...50) {
-			var bullet = new Bullet(0, 0);
+			var bullet = new Bullet(0, 0, FlxColor.GREEN);
 			bullets.add(bullet);
 		}
 

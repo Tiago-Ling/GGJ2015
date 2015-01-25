@@ -15,6 +15,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.effects.particles.FlxEmitter;
 // import flixel.group.FlxTypedGroup;
 import flixel.graphics.FlxGraphic;
+import flixel.FlxObject;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -43,7 +44,7 @@ class MenuState extends FlxState
 		// FlxG.worldBounds.set(-10000, -10000, 20000, 20000);
 
 		this.bgColor = 0xff444444;
-		FlxG.debugger.drawDebug = true;
+		// FlxG.debugger.drawDebug = true;
 
 		// var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
 		var bg = new RunnerBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
@@ -62,7 +63,7 @@ class MenuState extends FlxState
 		ship = new Ship(FlxG.width / 2 - w / 2, (FlxG.height / 2 - h / 2) + 100);
 		add(ship);
 
-		meteorGroup = new MeteorGroup();
+		meteorGroup = new MeteorGroup(this);
 		add(meteorGroup);
 
 		pickupGroup = new PickupGroup();
@@ -78,11 +79,11 @@ class MenuState extends FlxState
 			exploGroup.add(emitter);
 		}
 
-		enemyGroup = new EnemyGroup(5, 5, exploGroup);
+		enemyGroup = new EnemyGroup(7, 3, exploGroup);
 		add(enemyGroup.bullets);
 		add(enemyGroup);
 
-		hud = new HUD();
+		hud = new HUD(enemyGroup);
 		ship.setHullHUDCallback(hud.setHullHealth);
 		add(hud);
 
@@ -105,25 +106,9 @@ class MenuState extends FlxState
 	{
 		super.update(elapsed);
 
-		// FlxG.camera.scroll.y -= 100 * elapsed;
-
 		checkCollisions();
 
-		// // TODO spawn test: remover
-		// if (meteorGroup.countDead() == -1 && meteorGroup.countLiving() == -1)
-		// {
-		// 	meteorGroup.spawn();
-		// }
-
-		// if (meteorGroup.countDead() >= 0 && meteorGroup.countLiving() == 0)
-		// {
-		// 	meteorGroup.spawn();
-		// }
-
 		handleSlotInteraction();
-
-		/*if (ship.hullHealth <= 0)
-			FlxG.switchState(new GameOverState());*/
 
 		if (FlxG.keys.justReleased.F12)
 		{
@@ -136,11 +121,19 @@ class MenuState extends FlxState
 		FlxG.overlap(ship.bullets, enemyGroup, function (a:Bullet, b:Enemy) {
 			a.dispose();
 			b.takeHit(1);
+			hud.addToScore(50);
 		});
 
-		FlxG.overlap(ship.hull, enemyGroup.bullets, function (a:Ship, b:Bullet) {
+		FlxG.overlap(ship.colGroup, enemyGroup.bullets, function (a:FlxObject, b:Bullet) {
+			b.velocity.set(0, 0);
+			var center = b.getMidpoint();
+			ship.takeHit(5, center.x, center.y);
 			b.dispose();
-			ship.takeHit(10);
+		});
+
+		FlxG.overlap(ship.colGroup, meteorGroup, function (a:FlxObject, b:Meteor) {
+			ship.takeHit(45, b.x + b.width / 2, b.y + b.height);
+			b.kill();
 		});
 	}
 
@@ -150,7 +143,7 @@ class MenuState extends FlxState
 		FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
 			switch (a.ID) {
 				case 0:
-					if (FlxG.keys.justPressed.E) {
+					if (FlxG.keys.justPressed.Q) {
 						if (didOverlap)
 							return;
 

@@ -73,7 +73,7 @@ class Enemy extends Spawnable
 		elapsedCharge = 0;
 	}
 
-	override public function activate(x:Float, y:Float)
+	override public function activate(?x:Float, ?y:Float)
 	{
 		originalSpawn.set(x, y);
 		setPosition(x, y);

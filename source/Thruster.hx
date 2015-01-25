@@ -11,18 +11,21 @@ import flixel.group.FlxGroup;
 class Thruster extends FlxGroup
 {
 	var position:FlxPoint;
-	var gfx:FlxSprite;
-	var rocket:FlxEmitter;
+	public var gfx:FlxSprite;
+	public var rocket:FlxEmitter;
 
 	var playerId:Int;
 	var isAttached:Bool;
 	var isThrusting:Bool;
+	var ship:Ship;
 
-	public function new (X:Float, Y:Float, id:Int)
+	public function new (X:Float, Y:Float, id:Int, ship:Ship)
 	{
 		super();
 
 		ID = id;
+
+		this.ship = ship;
 
 		position = FlxPoint.get(X, Y);
 
@@ -42,31 +45,24 @@ class Thruster extends FlxGroup
 		add(gfx);
 
 		rocket = new FlxEmitter(position.x, position.y);
-
 		rocket.loadParticles(AssetPaths.granadeBlow__png, 50, 16, true, true);
-		for (particle in rocket.members) {
-			particle.scrollFactor.set(0, 0);
+		// rocket.scale.set(0.75, 1, 1.5, 3);
+		rocket.scale.set(0.3, 0.3, 1.2, 1.2);
+		rocket.alpha.set(0.4, 0.6, 0.8, 1);
+		rocket.lifespan.set(0.5, 1.5);
+
+		if (ID == 4) {
+			rocket.velocity.set(-250, 0, -275, 0, -300, 0, -350, 0);
+			rocket.acceleration.set(45, 0, 60, 0, 75, 0, 95, 0);
+			rocket.speed.set(100, 175, 325, 425);
+			rocket.launchAngle.set(165, 195);
+		} else {
+			rocket.velocity.set(250, 0, 275, 0, 300, 0, 350, 0);
+			rocket.acceleration.set(45, 0, 60, 0, 75, 0, 95, 0);
+			rocket.speed.set(100, 175, 325, 425);
+			rocket.launchAngle.set(-15, 15);
 		}
-		rocket.scale.set(0.5, 1, 1.5, 3);
-		rocket.alpha.set(0.2, 0.4, 0.6, 0.8);
-		rocket.velocity.set(50, 50, 150, 150);
-		rocket.acceleration.set(15, 15, 45, 45);
-		rocket.speed.set(5, 15, 30, 60);
-		rocket.lifespan.set(10, 50);
-		rocket.launchAngle.set(45 , 90);
 
-		// if (ID == 4) {
-		// 	rocket.launchAngle.set(-45, -90);
-		// } else {
-		// 	rocket.launchAngle.set(45 , 90);
-		// }
-
-		// explosion.setScale(0.5,1,1.5,3);
-		// explosion.setAlpha(0.2,0.4,0.6,0.8);
-		// // explosion.setMotion(225,32,0.3,270,72,1.2);
-		// explosion.setMotion(135,32,0.2,270,72,0.7);
-
-		// rocket.scrollFactor.set(0, 0);
 		rocket.ID = ID;
 		rocket.kill();
 		add(rocket);
@@ -97,57 +93,69 @@ class Thruster extends FlxGroup
 
 		if (playerId == 0) {
 			if (ID == 4) { //left
-				if (FlxG.keys.pressed.LEFT && !isThrusting) {
+				if (FlxG.keys.justPressed.A && !isThrusting) {
 					isThrusting = true;
 					rocket.revive();
 					rocket.setPosition(gfx.x - 20, gfx.y);
-					rocket.start(true, 0.3, 10);
-					FlxG.camera.scroll.x += 100 * elapsed;
+					rocket.start(false, 0.1, 20);
+					// FlxG.camera.scroll.x += 100 * elapsed;
+
+					// ship.velocity.x = 300;
+					ship.setGroupVelocity(300);
 				}
 
-				if (FlxG.keys.justReleased.LEFT && isThrusting) {
-					rocket.kill();
+				if (FlxG.keys.justReleased.A && isThrusting) {
+					//rocket.kill();
 					isThrusting = false;
 				}
 			} else { //right
-				if (FlxG.keys.pressed.RIGHT) {
+				if (FlxG.keys.justPressed.D) {
 					isThrusting = true;
 					rocket.revive();
 					rocket.setPosition(gfx.x + 52, gfx.y);
-					rocket.start(true, 0.3, 10);
-					FlxG.camera.scroll.x -= 100 * elapsed;
+					rocket.start(false, 0.1, 10);
+					// FlxG.camera.scroll.x -= 100 * elapsed;
+
+					// ship.velocity.x = -300;
+					ship.setGroupVelocity(-300);
 				}
 
-				if (FlxG.keys.justReleased.RIGHT && isThrusting) {
-					rocket.kill();
+				if (FlxG.keys.justReleased.D && isThrusting) {
+					//rocket.kill();
 					isThrusting = false;
 				}
 			}
 		} else {
 			if (ID == 4) { //left
-				if (FlxG.keys.pressed.A) {
+				if (FlxG.keys.justPressed.LEFT) {
 					isThrusting = true;
 					rocket.revive();
-					rocket.setPosition(gfx.x + 52, gfx.y);
-					rocket.start(true, 0.3, 10);
-					FlxG.camera.scroll.x -= 100 * elapsed;
+					rocket.setPosition(gfx.x - 20, gfx.y);
+					rocket.start(false, 0.1, 10);
+					// FlxG.camera.scroll.x -= 100 * elapsed;
+
+					// ship.velocity.x = 300;
+					ship.setGroupVelocity(300);
 				}
 
-				if (FlxG.keys.justReleased.A && isThrusting) {
-					rocket.kill();
+				if (FlxG.keys.justReleased.LEFT && isThrusting) {
+					// rocket.kill();
 					isThrusting = false;
 				}
 			} else { //right
-				if (FlxG.keys.pressed.D) {
+				if (FlxG.keys.justPressed.RIGHT) {
 					isThrusting = true;
 					rocket.revive();
 					rocket.setPosition(gfx.x + 52, gfx.y);
-					rocket.start(true, 0.3, 10);
-					FlxG.camera.scroll.x += 100 * elapsed;
+					rocket.start(false, 0.1, 10);
+					// FlxG.camera.scroll.x += 100 * elapsed;
+
+					// ship.velocity.x = -300;
+					ship.setGroupVelocity(-300);
 				}
 
-				if (FlxG.keys.justReleased.D && isThrusting) {
-					rocket.kill();
+				if (FlxG.keys.justReleased.RIGHT && isThrusting) {
+					// rocket.kill();
 					isThrusting = false;
 				}
 			}

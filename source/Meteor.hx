@@ -17,11 +17,16 @@ class Meteor extends Spawnable
 	{
 		loadRotatedGraphic(AssetPaths.asteroide__png, 32, -1, false, true);
 
-		isOnScene = false;
-
-		velocity.y = -75;
+		//velocity.y = 75;
 
 		kill();
+	}
+
+	override public function activate(?x:Float, ?y:Float)
+	{
+		isOnScene = false;
+		velocity.y = 75;
+		revive();
 	}
 
 	override public function update(elapsed:Float)

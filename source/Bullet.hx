@@ -8,10 +8,13 @@ import flixel.FlxG;
 class Bullet extends FlxSprite
 {
 	public var launched:Bool;
+	public var bulletColor:FlxColor;
 
-	public function new (X:Float, Y:Float)
+	public function new (X:Float, Y:Float, color:FlxColor)
 	{
 		super(X, Y);	
+
+		bulletColor = color;
 
 		launched = false;
 		init();
@@ -19,7 +22,7 @@ class Bullet extends FlxSprite
 
 	function init()
 	{
-		makeGraphic(4, 8, FlxColor.RED);
+		makeGraphic(4, 8, bulletColor);
 		// allowCollisions = FlxObject.NONE;
 		kill();
 	}

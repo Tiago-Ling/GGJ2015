@@ -26,12 +26,15 @@ class IntroState extends FlxState
 	{
 		super.update(elapsed);
 
+		//Play the game
 		if (FlxG.keys.pressed.ENTER)
 			FlxG.switchState(new MenuState());
 
+		//Credits
 		if (FlxG.keys.pressed.ESCAPE)
 			FlxG.switchState(new CreditState());
 
+		//How To
 		if (FlxG.keys.pressed.T)
 			FlxG.switchState(new TutorialState());
 	}

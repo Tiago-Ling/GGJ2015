@@ -3,23 +3,24 @@ package ;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
-// import flixel.group.FlxTypedGroup;
 import flixel.util.FlxColor;
 import flixel.math.FlxAngle;
 import flixel.FlxObject;
 
 class Cannon extends FlxGroup
 {
-	public static var BULLET_DELAY:Float = 25;
+	public static var BULLET_DELAY:Float = 20;
 	public static var BULLET_SPEED:Float = 600;
+
+	public static var CANNON_SPEED:Float = 3;
 
 	public var bullets:FlxTypedGroup<Bullet>;
 
-	var gfx:FlxSprite;
+	public var gfx:FlxSprite;
 	var playerId:Int;
 	var isAttached:Bool;
 	var fireDelay:Float;
-	var angleHelper:FlxObject;
+	public var angleHelper:FlxObject;
 
 	public function new(X:Float, Y:Float, id:Int)
 	{
@@ -35,7 +36,8 @@ class Cannon extends FlxGroup
 	{
 		bullets = new FlxTypedGroup<Bullet>(50);
 		for (i in 0...50) {
-			var bullet = new Bullet(0, 0);
+			var color = ID == 0 ? FlxColor.RED : FlxColor.BLUE;
+			var bullet = new Bullet(0, 0, color);
 			bullets.add(bullet);
 		}
 		add(bullets);
@@ -86,29 +88,29 @@ class Cannon extends FlxGroup
 			if (ID == 0) {
 				if (FlxG.keys.pressed.RIGHT) {
 					if (gfx.angle < 0) {
-						gfx.angle += 2;
-						angleHelper.angle += 2;
+						gfx.angle += CANNON_SPEED;
+						angleHelper.angle += CANNON_SPEED;
 					}
 				}
 
 				if (FlxG.keys.pressed.LEFT) {
 					if (gfx.angle > -140) {
-						gfx.angle -= 2;
-						angleHelper.angle -= 2;
+						gfx.angle -= CANNON_SPEED;
+						angleHelper.angle -= CANNON_SPEED;
 					}
 				}
 			} else {
 				if (FlxG.keys.pressed.LEFT) {
 					if (gfx.angle > 0) {
-						gfx.angle -= 2;
-						angleHelper.angle -= 2;
+						gfx.angle -= CANNON_SPEED;
+						angleHelper.angle -= CANNON_SPEED;
 					}
 				}
 
 				if (FlxG.keys.pressed.RIGHT) {
 					if (gfx.angle < 140) {
-						gfx.angle += 2;
-						angleHelper.angle += 2;
+						gfx.angle += CANNON_SPEED;
+						angleHelper.angle += CANNON_SPEED;
 					}
 				}
 			}
@@ -116,58 +118,88 @@ class Cannon extends FlxGroup
 			if (ID == 0) {
 				if (FlxG.keys.pressed.D) {
 					if (gfx.angle < 0) {
-						gfx.angle += 2;
-						angleHelper.angle += 2;
+						gfx.angle += CANNON_SPEED;
+						angleHelper.angle += CANNON_SPEED;
 					}
 				}
 
 				if (FlxG.keys.pressed.A) {
 					if (gfx.angle > -140) {
-						gfx.angle -= 2;
-						angleHelper.angle -= 2;
+						gfx.angle -= CANNON_SPEED;
+						angleHelper.angle -= CANNON_SPEED;
 					}
 				}
 			} else {
 				if (FlxG.keys.pressed.A) {
 					if (gfx.angle > 0) {
-						gfx.angle -= 2;
-						angleHelper.angle -= 2;
+						gfx.angle -= CANNON_SPEED;
+						angleHelper.angle -= CANNON_SPEED;
 					}
 				}
 
 				if (FlxG.keys.pressed.D) {
 					if (gfx.angle < 140) {
-						gfx.angle += 2;
-						angleHelper.angle += 2;
+						gfx.angle += CANNON_SPEED;
+						angleHelper.angle += CANNON_SPEED;
 					}
 				}
 			}
 		}
 
-		if (ID == 1) {
-			if (FlxG.keys.pressed.UP && fireDelay <= 0) {
-				var bullet = bullets.getFirstDead();
-				if (bullet != null) {
-					bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
-					bullet.angle = gfx.angle;
-					bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
-					bullet.launched = true;
-					bullet.revive();
-					fireDelay = BULLET_DELAY;
-					FlxG.sound.play(AssetPaths.tiro__wav);
+		if (ID == 1) { //right cannon
+			if (playerId == 0) {
+				if (FlxG.keys.pressed.W && fireDelay <= 0) {
+					var bullet = bullets.getFirstDead();
+					if (bullet != null) {
+						bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
+						bullet.angle = gfx.angle;
+						bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+						bullet.launched = true;
+						bullet.revive();
+						fireDelay = BULLET_DELAY;
+						FlxG.sound.play(AssetPaths.tiro__wav);
+					}
+				}
+			} else {
+				if (FlxG.keys.pressed.UP && fireDelay <= 0) {
+					var bullet = bullets.getFirstDead();
+					if (bullet != null) {
+						bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
+						bullet.angle = gfx.angle;
+						bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+						bullet.launched = true;
+						bullet.revive();
+						fireDelay = BULLET_DELAY;
+						FlxG.sound.play(AssetPaths.tiro__wav);
+					}
 				}
 			}
-		} else{
-			if (FlxG.keys.pressed.W && fireDelay <= 0) {
-				var bullet = bullets.getFirstDead();
-				if (bullet != null) {
-					bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
-					bullet.angle = gfx.angle;
-					bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
-					bullet.launched = true;
-					bullet.revive();
-					fireDelay = BULLET_DELAY;
-					FlxG.sound.play(AssetPaths.tiro__wav);
+		} else{ //left cannon
+			if (playerId == 0) {
+				if (FlxG.keys.pressed.W && fireDelay <= 0) {
+					var bullet = bullets.getFirstDead();
+					if (bullet != null) {
+						bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
+						bullet.angle = gfx.angle;
+						bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+						bullet.launched = true;
+						bullet.revive();
+						fireDelay = BULLET_DELAY;
+						FlxG.sound.play(AssetPaths.tiro__wav);
+					}
+				}
+			} else {
+				if (FlxG.keys.pressed.UP && fireDelay <= 0) {
+					var bullet = bullets.getFirstDead();
+					if (bullet != null) {
+						bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
+						bullet.angle = gfx.angle;
+						bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+						bullet.launched = true;
+						bullet.revive();
+						fireDelay = BULLET_DELAY;
+						FlxG.sound.play(AssetPaths.tiro__wav);
+					}
 				}
 			}
 		}
