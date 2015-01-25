@@ -13,9 +13,6 @@ class HUD extends FlxGroup
 	private var hullBar:FlxBar;
 	private var shieldGroup:FlxGroup;
 
-	public var hullHealth:Float;
-	public var shieldCount:Int;
-
 	public function new()
 	{
 		super();
@@ -23,17 +20,14 @@ class HUD extends FlxGroup
 		init();
 	}
 
-	function init()
+	public function init()
 	{
-		hullHealth = 100;
-
 		hullBar = new FlxBar(FlxG.width - 30, FlxG.height - 310, FlxBarFillDirection.BOTTOM_TO_TOP, 20, 300);
 		hullBar.createColoredFilledBar(FlxColor.YELLOW, true, FlxColor.WHITE);
-		hullBar.percent = 100;
+		hullBar.percent = 0;
 		hullBar.scrollFactor.set(0,0);
 		add(hullBar);
 
-		shieldCount = MAX_SHIELD;
 		shieldGroup = new FlxGroup(MAX_SHIELD);
 		for (i in 0...MAX_SHIELD)
 		{
@@ -46,5 +40,30 @@ class HUD extends FlxGroup
 			shieldGroup.add(shield);
 		}
 		add(shieldGroup);
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+	}
+
+	public function setHullHealth(percent:Float)
+	{
+		trace('c2: $percent');
+		hullBar.percent = percent;
+	}
+
+	public function setShieldCount(count:Int)
+	{
+		if (count > MAX_SHIELD)
+			count = MAX_SHIELD;
+
+		for (i in 0...MAX_SHIELD)
+		{
+			if (i < count)
+				shieldGroup.members[i].revive();
+			else
+				shieldGroup.members[i].kill();
+		}
 	}
 }
