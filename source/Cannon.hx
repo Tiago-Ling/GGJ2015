@@ -14,14 +14,14 @@ class Cannon extends FlxGroup
 	public static var BULLET_SPEED:Float = 600;
 
 	public var bullets:FlxTypedGroup<Bullet>;
-	
+
 	var gfx:FlxSprite;
 	var playerId:Int;
 	var isAttached:Bool;
 	var fireDelay:Float;
 	var angleHelper:FlxObject;
 
-	public function new(X:Float, Y:Float, id:Int) 
+	public function new(X:Float, Y:Float, id:Int)
 	{
 		super();
 
@@ -29,7 +29,7 @@ class Cannon extends FlxGroup
 		fireDelay = 0;
 
 		init(X, Y, id);
-	}	
+	}
 
 	function init(X:Float, Y:Float, id:Int)
 	{
@@ -71,7 +71,7 @@ class Cannon extends FlxGroup
 		handleInput();
 	}
 
-	function handleInput() 
+	function handleInput()
 	{
 		if (!isAttached)
 			return;
@@ -107,7 +107,7 @@ class Cannon extends FlxGroup
 					}
 				}
 			}
-		} else {	//Player 2 commands 
+		} else {	//Player 2 commands
 			if (ID == 0) {
 				if (FlxG.keys.pressed.D) {
 					if (gfx.angle < 0) {

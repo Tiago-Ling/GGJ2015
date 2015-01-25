@@ -40,6 +40,11 @@ class Player extends FlxSprite
 
 		this.acceleration.set(0, 0);
 		this.maxVelocity.set(300, 300);
+
+		offset.x = 10;
+		offset.y = 20;
+		width -= 20;
+		height -= 40;
 	}
 
 	public function boundTo(spr:FlxSprite)

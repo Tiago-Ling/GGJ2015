@@ -1,6 +1,6 @@
 package ;
 
-import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.math.FlxMath;
@@ -18,6 +18,11 @@ enum EnemyState {
 
 class Enemy extends Spawnable
 {
+	public static var BULLET_DELAY:Float = 25;
+	public static var BULLET_SPEED:Float = 300;
+
+	private var bullets:FlxTypedGroup<Bullet>;
+
 	private var state:EnemyState;
 	private var chasePoint:FlxPoint;
 
@@ -28,15 +33,22 @@ class Enemy extends Spawnable
 
 	public var chaseVelocity:FlxPoint;
 
-	public function new(x:Float, y:Float, ?simpleGraphic:FlxGraphicAsset)
+	public function new(x:Float, y:Float, bullets:FlxTypedGroup<Bullet>)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
-		super(x, y, simpleGraphic);
+		super(x, y);
+
+		this.bullets = bullets;
 
 		originalSpawn = new FlxPoint(x, y);
 		spawn = new FlxPoint();
 
 		chaseVelocity = FlxPoint.get(150, 300);
+
+		offset.x = 20;
+		offset.y = 20;
+		width -= 40;
+		height -= 40;
 
 		kill();
 	}
@@ -117,6 +129,16 @@ class Enemy extends Spawnable
 			h *= -1;
 
 		spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
+
+		var bullet = bullets.getFirstDead();
+		if (bullet != null)
+		{
+			bullet.setPosition(x + width / 2 + FlxG.camera.scroll.x, y + height / 2 + FlxG.camera.scroll.y);
+			bullet.angle = angle * 90;
+			bullet.velocity.set(Math.cos(angle * FlxAngle.TO_RAD)*BULLET_SPEED, Math.sin(angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+			bullet.launched = true;
+			bullet.revive();
+		}
 
 		state = EnemyState.Fleeing;
 	}

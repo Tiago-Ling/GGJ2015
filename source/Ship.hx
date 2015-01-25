@@ -21,7 +21,7 @@ class Ship extends FlxGroup
 	public var slots:FlxGroup;
 	public var bullets:FlxGroup;
 
-	var hull:FlxSprite;
+	public var hull:FlxSprite;
 	var cannonLeft:Cannon;
 	var cannonRight:Cannon;
 	var leftThruster:Thruster;
@@ -48,7 +48,7 @@ class Ship extends FlxGroup
 	{
 		// this.scrollFactor.set(0, 0);
 
-		hullHealth = 0;
+		hullHealth = 100;
 
 		players = new FlxGroup();
 		slots = new FlxGroup();
@@ -177,6 +177,12 @@ class Ship extends FlxGroup
 		if (hullHealth > MAX_HULL)
 			hullHealth = MAX_HULL;
 
+		hullHUDCallback(hullHealth);
+	}
+
+	public function takeHit(hit:Float)
+	{
+		hullHealth -= hit;
 		hullHUDCallback(hullHealth);
 	}
 

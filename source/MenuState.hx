@@ -122,6 +122,12 @@ class MenuState extends FlxState
 				b.takeHit(1);
 			}
 		});
+
+		FlxG.overlap(ship, enemyGroup.bullets, function (a:Ship, b:Bullet) {
+			//trace('Collision -> ship x enemy bullet at ${a.hull.x},${a.hull.y} - ${b.x},${b.y}');
+			b.dispose();
+			ship.takeHit(10);
+		});
 	}
 
 	function handleSlotInteraction()

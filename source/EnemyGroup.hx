@@ -6,6 +6,8 @@ import flixel.math.FlxPoint;
 
 class EnemyGroup extends FlxGroup
 {
+	public var bullets:FlxTypedGroup<Bullet>;
+
 	var spawnDelay:Float;
 	var numEnemies:Int;
 	var spawnCounter:Float;
@@ -35,8 +37,15 @@ class EnemyGroup extends FlxGroup
 
 	function init()
 	{
+		bullets = new FlxTypedGroup<Bullet>(50);
+		for (i in 0...50) {
+			var bullet = new Bullet(0, 0);
+			bullets.add(bullet);
+		}
+		add(bullets);
+
 		for (i in 0...30) {
-			var enemy = new Enemy(0, 0);
+			var enemy = new Enemy(0, 0, bullets);
 			add(enemy);
 		}
 	}
@@ -70,7 +79,7 @@ class EnemyGroup extends FlxGroup
 					index = FlxG.random.int(0, positions.length - 1, arr);
 				else
 					index = FlxG.random.int(0, positions.length - 1);
-				
+
 				spawn(positions[index]);
 
 				arr.push(index);
