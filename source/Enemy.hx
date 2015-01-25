@@ -63,6 +63,8 @@ class Enemy extends Spawnable
 		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
 		state = Enemy.EnemyState.Chasing;
 
+		health = 3;
+
 		revive();
 	}
 
@@ -97,7 +99,7 @@ class Enemy extends Spawnable
 		elapsedCharge += elapsed;
 
 		this.velocity.x = 0;
-		this.velocity.y = -100;
+		this.velocity.y = 0;
 
 		if (elapsedCharge >= 1)
 		{
@@ -133,7 +135,6 @@ class Enemy extends Spawnable
 			h *= -1;
 
 		spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
-		// spawn.set(originalSpawn.x + w, originalSpawn.y + h);
 		this.angle = FlxAngle.angleBetweenPoint(this, spawn, true);
 		var speed = FlxG.random.float(chaseVelocity.x, chaseVelocity.y);
 		FlxVelocity.moveTowardsPoint(this, spawn, speed);
@@ -145,5 +146,16 @@ class Enemy extends Spawnable
 		state = EnemyState.Idle;
 		elapsedCharge = 0;
 		kill();
+	}
+
+	public function takeHit(dmg:Int)
+	{
+		if (this.health > 0) {
+			trace('Damage taken $health');
+			health -= dmg;
+			FlxG.sound.play(AssetPaths.SFX_Strike__wav, 1);
+		} else {
+			dispose();
+		}
 	}
 }

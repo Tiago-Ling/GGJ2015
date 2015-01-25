@@ -40,9 +40,14 @@ class MenuState extends FlxState
 		this.bgColor = 0xff444444;
 		FlxG.debugger.drawDebug = true;
 
-		var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
+		// var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
+		var bg = new RunnerBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
+		bg.velocity.y = 100 * 0.3;
 		var nebulosa = new FlxBackdrop(AssetPaths.bg_nebulosa__png, 0.7, 0.7, true, true);
+		nebulosa.velocity.y = 100 * 0.7;
 		var estrelas = new FlxBackdrop(AssetPaths.bg_estrelas__png, 1, 1, true, true);
+		estrelas.velocity.y = 100;
+
 		add(bg);
 		add(nebulosa);
 		add(estrelas);
@@ -110,7 +115,8 @@ class MenuState extends FlxState
 			trace('Collision -> bullet x enemy at ${a.x},${a.y} - ${b.x},${b.y}');
 			if (a.alive && b.alive) {
 				a.dispose();
-				b.dispose();
+				// b.dispose();
+				b.takeHit(1);
 			}
 		});
 	}
