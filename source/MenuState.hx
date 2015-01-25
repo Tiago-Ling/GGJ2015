@@ -11,6 +11,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup;
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxPoint;
+import flixel.addons.display.FlxBackdrop;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -20,6 +21,8 @@ class MenuState extends FlxState
 	var pA:Player;
 	var pB:Player;
 	var ship:Ship;
+
+	var hud:HUD;
 
 	var meteorGroup:MeteorGroup;
 	var pickupGroup:PickupGroup;
@@ -35,8 +38,12 @@ class MenuState extends FlxState
 		this.bgColor = 0xff444444;
 		FlxG.debugger.drawDebug = true;
 
-		var bg = new flixel.addons.display.FlxBackdrop(AssetPaths.download__png, 1, 1, true, true);
+		var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
+		var nebulosa = new FlxBackdrop(AssetPaths.bg_nebulosa__png, 0.7, 0.7, true, true);
+		var estrelas = new FlxBackdrop(AssetPaths.bg_estrelas__png, 1, 1, true, true);
 		add(bg);
+		add(nebulosa);
+		add(estrelas);
 
 		var w = 145;
 		var h = 160;
@@ -53,6 +60,9 @@ class MenuState extends FlxState
 		add(enemyGroup);
 
 		enemyGroup.spawn(FlxPoint.weak(0, 0));
+
+		hud = new HUD();
+		add(hud);
 	}
 
 	/**
