@@ -54,6 +54,8 @@ class Enemy extends Spawnable
 		width -= 40;
 		height -= 40;
 
+		health = 2;
+
 		kill();
 	}
 
@@ -177,19 +179,19 @@ class Enemy extends Spawnable
 	public function takeHit(dmg:Int)
 	{
 		if (this.health > 0) {
-			trace('Damage taken $health');
 			health -= dmg;
-			//FlxG.sound.play(AssetPaths.explosion__wav, 1);
+			FlxG.sound.play(AssetPaths.explosion__wav, 1);
 		} else {
+			var emitter = explosions.recycle();
+			// var emitter = explosions.getFirstDead();
+			if (emitter != null) {
+				emitter.focusOn(this);
+				emitter.start(true, 0.3, 10);
+				emitter.revive();
+			}
 
-			// var emitter = explosions.recycle();
-			var emitter = explosions.getFirstDead();
-			// var center = this.getMidpoint();
-			// emitter.setPosition(center.x, center.y);
-			emitter.focusOn(this);
-			emitter.start(true, 0.3, 10);
-			emitter.revive();
 			dispose();
+			FlxG.sound.play(AssetPaths.defeat_enemy__wav, 1);
 		}
 	}
 }

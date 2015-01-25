@@ -82,7 +82,7 @@ class Cannon extends FlxGroup
 			return;
 
 		//Player 1 commands
-		if (playerId == 0) {
+		if (playerId == 1) {
 			if (ID == 0) {
 				if (FlxG.keys.pressed.RIGHT) {
 					if (gfx.angle < 0) {
@@ -144,7 +144,7 @@ class Cannon extends FlxGroup
 			}
 		}
 
-		if (ID == 0) {
+		if (ID == 1) {
 			if (FlxG.keys.pressed.UP && fireDelay <= 0) {
 				var bullet = bullets.getFirstDead();
 				if (bullet != null) {

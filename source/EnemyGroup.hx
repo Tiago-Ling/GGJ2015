@@ -43,7 +43,6 @@ class EnemyGroup extends FlxGroup
 			var bullet = new Bullet(0, 0);
 			bullets.add(bullet);
 		}
-		add(bullets);
 
 		for (i in 0...30) {
 			var enemy = new Enemy(0, 0, explosions, bullets);
