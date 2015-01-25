@@ -40,6 +40,8 @@ class Player extends FlxSprite
 
 		this.acceleration.set(0, 0);
 		this.maxVelocity.set(300, 300);
+
+		ID == 0 ? this.color = 0xFF0000 : this.color = 0x0000FF;
 	}
 
 	public function boundTo(spr:FlxSprite)
@@ -62,37 +64,6 @@ class Player extends FlxSprite
 			return;
 
 		if (ID == 0) {
-			if (FlxG.keys.pressed.UP) {
-				velocity.y = -200;
-				animation.play('walk_top');
-				idleAnim = 'idle_top';
-			}
-
-			if (FlxG.keys.pressed.DOWN) {
-				velocity.y = 200;
-				animation.play('walk_down');
-				idleAnim = 'idle_down';
-			}
-
-			if (FlxG.keys.pressed.LEFT) {
-				velocity.x = -200;
-				animation.play('walk_right');
-				this.flipX = true;
-				idleAnim = 'idle_right';
-			}
-
-			if (FlxG.keys.pressed.RIGHT) {
-				velocity.x = 200;
-				animation.play('walk_right');
-				this.flipX = false;
-				idleAnim = 'idle_right';
-			}
-
-			if (FlxG.keys.justReleased.ANY) {
-				velocity.set(0, 0);
-				animation.play(idleAnim);
-			}
-		} else {
 			if (FlxG.keys.pressed.W) {
 				velocity.y = -200;
 				animation.play('walk_top');
@@ -113,6 +84,37 @@ class Player extends FlxSprite
 			}
 
 			if (FlxG.keys.pressed.D) {
+				velocity.x = 200;
+				animation.play('walk_right');
+				this.flipX = false;
+				idleAnim = 'idle_right';
+			}
+
+			if (FlxG.keys.justReleased.ANY) {
+				velocity.set(0, 0);
+				animation.play(idleAnim);
+			}
+		} else {
+			if (FlxG.keys.pressed.UP) {
+				velocity.y = -200;
+				animation.play('walk_top');
+				idleAnim = 'idle_top';
+			}
+
+			if (FlxG.keys.pressed.DOWN) {
+				velocity.y = 200;
+				animation.play('walk_down');
+				idleAnim = 'idle_down';
+			}
+
+			if (FlxG.keys.pressed.LEFT) {
+				velocity.x = -200;
+				animation.play('walk_right');
+				this.flipX = true;
+				idleAnim = 'idle_right';
+			}
+
+			if (FlxG.keys.pressed.RIGHT) {
 				velocity.x = 200;
 				animation.play('walk_right');
 				this.flipX = false;

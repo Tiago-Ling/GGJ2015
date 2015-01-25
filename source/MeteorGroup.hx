@@ -5,6 +5,19 @@ import flixel.FlxG;
 
 class MeteorGroup extends FlxGroup
 {
+	public function new ()
+	{
+		init();
+	}
+
+	function init()
+	{
+		for (i in 0...30) {
+			var meteor = new Meteor(0, 0);
+			add(meteor);
+		}
+	}
+
 	public function spawn()
 	{
 		if (this.countDead() > 0)

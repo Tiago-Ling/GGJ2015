@@ -161,14 +161,13 @@ class Enemy extends Spawnable
 			FlxG.sound.play(AssetPaths.explosion__wav, 1);
 		} else {
 
-			// var emitter = explosions.recycle();
-			var emitter = explosions.getFirstDead();
-			// var center = this.getMidpoint();
-			// emitter.setPosition(center.x, center.y);
+			var emitter = explosions.recycle();
+			// var emitter = explosions.getFirstDead();
 			emitter.focusOn(this);
 			emitter.start(true, 0.3, 10);
 			emitter.revive();
 			dispose();
+			FlxG.sound.play(AssetPaths.defeat_enemy__wav, 1);
 		}
 	}
 }
