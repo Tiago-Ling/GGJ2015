@@ -139,16 +139,32 @@ class Cannon extends FlxGroup
 			}
 		}
 
-		if (FlxG.keys.pressed.SPACE && fireDelay <= 0) {
-			var bullet = bullets.getFirstDead();
-			if (bullet != null) {
-				bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
-				bullet.angle = gfx.angle;
-				bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
-				bullet.launched = true;
-				bullet.revive();
-				fireDelay = BULLET_DELAY;
+		if (ID == 0) {
+			if (FlxG.keys.pressed.UP && fireDelay <= 0) {
+				var bullet = bullets.getFirstDead();
+				if (bullet != null) {
+					bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
+					bullet.angle = gfx.angle;
+					bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+					bullet.launched = true;
+					bullet.revive();
+					fireDelay = BULLET_DELAY;
+					FlxG.sound.play(AssetPaths.tiro__wav);
+				}
 			}
-		}
+		} else{
+			if (FlxG.keys.pressed.W && fireDelay <= 0) {
+				var bullet = bullets.getFirstDead();
+				if (bullet != null) {
+					bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
+					bullet.angle = gfx.angle;
+					bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+					bullet.launched = true;
+					bullet.revive();
+					fireDelay = BULLET_DELAY;
+					FlxG.sound.play(AssetPaths.tiro__wav);
+				}
+			}
+		}	 
 	}
 }

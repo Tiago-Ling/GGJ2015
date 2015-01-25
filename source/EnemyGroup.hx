@@ -3,6 +3,7 @@ package ;
 import flixel.group.FlxGroup;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
+import flixel.effects.particles.FlxEmitter;
 
 class EnemyGroup extends FlxGroup
 {
@@ -13,7 +14,7 @@ class EnemyGroup extends FlxGroup
 	var positions:Array<FlxPoint>;
 	var usedPos:Array<Int>;
 
-	public function new(spawnDelay:Float, numEnemies:Int)
+	public function new(spawnDelay:Float, numEnemies:Int, explosions:FlxTypedGroup<FlxEmitter>)
 	{
 		super();
 
@@ -30,13 +31,13 @@ class EnemyGroup extends FlxGroup
 					 FlxPoint.get(-100, FlxG.height),
 					 FlxPoint.get(FlxG.width, FlxG.height)];
 		usedPos = [];
-		init();
+		init(explosions);
 	}
 
-	function init()
+	function init(explosions:FlxTypedGroup<FlxEmitter>)
 	{
 		for (i in 0...30) {
-			var enemy = new Enemy(0, 0);
+			var enemy = new Enemy(0, 0, explosions);
 			add(enemy);
 		}
 	}

@@ -12,6 +12,9 @@ import flixel.group.FlxGroup;
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxPoint;
 import flixel.addons.display.FlxBackdrop;
+import flixel.effects.particles.FlxEmitter;
+// import flixel.group.FlxTypedGroup;
+import flixel.graphics.FlxGraphic;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -28,6 +31,8 @@ class MenuState extends FlxState
 	var pickupGroup:PickupGroup;
 	var enemyGroup:EnemyGroup;
 
+	var exploGroup:FlxTypedGroup<FlxEmitter>;
+
 	/**
 	 * Function that is called up when to state is created to set it up.
 	 */
@@ -38,7 +43,7 @@ class MenuState extends FlxState
 		// FlxG.worldBounds.set(-10000, -10000, 20000, 20000);
 
 		this.bgColor = 0xff444444;
-		FlxG.debugger.drawDebug = true;
+		// FlxG.debugger.drawDebug = true;
 
 		// var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
 		var bg = new RunnerBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
@@ -63,12 +68,29 @@ class MenuState extends FlxState
 		pickupGroup = new PickupGroup();
 		add(pickupGroup);
 
-		enemyGroup = new EnemyGroup(5, 5);
+		exploGroup = new FlxTypedGroup<FlxEmitter>();
+		for (i in 0...10) {
+			var emitter = new FlxEmitter();
+			emitter.particleClass = Explosion;
+			emitter.makeParticles(120, 120, FlxColor.TRANSPARENT, 30);
+			// emitter.scale.set(0.15, 0.15, 0.4, 0.4, 0.8, 0.8, 1, 1);
+			// emitter.alpha.set(0.2, 0.4, 0.6, 0.8);
+			// emitter.velocity.set(50, 50, 150, 150);
+			// emitter.acceleration.set(15, 15, 45, 45);
+			// emitter.speed.set(5, 15, 30, 60);
+			emitter.lifespan.set(0.5, 1);
+			emitter.kill();
+			exploGroup.add(emitter);
+		}
+
+		enemyGroup = new EnemyGroup(5, 5, exploGroup);
 		add(enemyGroup);
 
 		hud = new HUD();
 		ship.setHullHUDCallback(hud.setHullHealth);
 		add(hud);
+
+		add(exploGroup);
 	}
 
 	/**
@@ -126,19 +148,49 @@ class MenuState extends FlxState
 
 	function handleSlotInteraction()
 	{
-		if (FlxG.keys.justPressed.E) {
-			var didOverlap:Bool = false;
-			FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
-				if (didOverlap)
-					return;
+		// if (FlxG.keys.justPressed.E) {
+		// 	var didOverlap:Bool = false;
+		// 	FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
+		// 		if (didOverlap)
+		// 			return;
 
-				didOverlap = true;
-				if (a.isAttached) {
-					ship.dettachPlayer(a.ID, b.ID);
-				} else {
-					ship.attachPlayer(a.ID, b.ID);
-				}
-			});
-		}
+		// 		didOverlap = true;
+		// 		if (a.isAttached) {
+		// 			ship.dettachPlayer(a.ID, b.ID);
+		// 		} else {
+		// 			ship.attachPlayer(a.ID, b.ID);
+		// 		}
+		// 	});
+		// }
+
+		var didOverlap:Bool = false;
+		FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
+			switch (a.ID) {
+				case 0:
+					if (FlxG.keys.justPressed.E) {
+						if (didOverlap)
+							return;
+
+						didOverlap = true;			
+						if (a.isAttached) {
+							ship.dettachPlayer(a.ID, b.ID);
+						} else {
+							ship.attachPlayer(a.ID, b.ID);
+						}
+					}
+				case 1:
+					if (FlxG.keys.justPressed.SLASH) {
+						if (didOverlap)
+							return;
+
+						didOverlap = true;			
+						if (a.isAttached) {
+							ship.dettachPlayer(a.ID, b.ID);
+						} else {
+							ship.attachPlayer(a.ID, b.ID);
+						}
+					}
+			}
+		});
 	}
 }
