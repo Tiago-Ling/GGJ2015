@@ -73,17 +73,13 @@ class MenuState extends FlxState
 			var emitter = new FlxEmitter();
 			emitter.particleClass = Explosion;
 			emitter.makeParticles(120, 120, FlxColor.TRANSPARENT, 30);
-			// emitter.scale.set(0.15, 0.15, 0.4, 0.4, 0.8, 0.8, 1, 1);
-			// emitter.alpha.set(0.2, 0.4, 0.6, 0.8);
-			// emitter.velocity.set(50, 50, 150, 150);
-			// emitter.acceleration.set(15, 15, 45, 45);
-			// emitter.speed.set(5, 15, 30, 60);
 			emitter.lifespan.set(0.5, 1);
 			emitter.kill();
 			exploGroup.add(emitter);
 		}
 
 		enemyGroup = new EnemyGroup(5, 5, exploGroup);
+		add(enemyGroup.bullets);
 		add(enemyGroup);
 
 		hud = new HUD();
@@ -137,23 +133,14 @@ class MenuState extends FlxState
 	function checkCollisions()
 	{
 		FlxG.overlap(ship.bullets, enemyGroup, function (a:Bullet, b:Enemy) {
-			handleBulletEnemyCollision(a, b);
+			a.dispose();
+			b.takeHit(1);
 		});
 
-		// FlxG.overlap(ship.bullets, enemyGroup, handleBulletEnemyCollision);
-
-		FlxG.overlap(ship, enemyGroup.bullets, function (a:Ship, b:Bullet) {
-			//trace('Collision -> ship x enemy bullet at ${a.hull.x},${a.hull.y} - ${b.x},${b.y}');
+		FlxG.overlap(ship.hull, enemyGroup.bullets, function (a:Ship, b:Bullet) {
 			b.dispose();
 			ship.takeHit(10);
 		});
-	}
-
-	function handleBulletEnemyCollision(a:Bullet, b:Enemy) {
-		// trace('Collision -> bullet x enemy at ${a.x},${a.y} - ${b.x},${b.y}');
-		a.dispose();
-		// b.dispose();
-		b.takeHit(1);
 	}
 
 	function handleSlotInteraction()

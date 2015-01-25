@@ -66,7 +66,7 @@ class Player extends FlxSprite
 		if (isAttached)
 			return;
 
-		if (ID == 0) {
+		if (ID == 1) {
 			if (FlxG.keys.pressed.UP) {
 				velocity.y = -200;
 				animation.play('walk_top');

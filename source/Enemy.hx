@@ -36,8 +36,6 @@ class Enemy extends Spawnable
 	public var chaseVelocity:FlxPoint;
 	var explosions:FlxTypedGroup<FlxEmitter>;
 
-	var enemyLife:Int;
-
 	public function new(x:Float, y:Float, explosions:FlxTypedGroup<FlxEmitter>, bullets:FlxTypedGroup<Bullet>)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
@@ -56,7 +54,7 @@ class Enemy extends Spawnable
 		width -= 40;
 		height -= 40;
 
-		enemyLife = 2;
+		health = 2;
 
 		kill();
 	}
@@ -180,26 +178,20 @@ class Enemy extends Spawnable
 
 	public function takeHit(dmg:Int)
 	{
-		// enemyLife -= 1;
+		if (this.health > 0) {
+			health -= dmg;
+			FlxG.sound.play(AssetPaths.explosion__wav, 1);
+		} else {
+			var emitter = explosions.recycle();
+			// var emitter = explosions.getFirstDead();
+			if (emitter != null) {
+				emitter.focusOn(this);
+				emitter.start(true, 0.3, 10);
+				emitter.revive();
+			}
 
-		// if (this.health > 0) {
-		// 	// trace('Damage taken $health');
-		// 	health -= dmg;
-		// 	FlxG.sound.play(AssetPaths.explosion__wav, 1);
-		// } else {
-		// 	// trace('explosions : $explosions');
-		// 	var emitter = explosions.recycle();
-		// 	// var emitter = explosions.getFirstDead();
-		// 	if (emitter != null) {
-		// 		emitter.focusOn(this);
-		// 		emitter.start(true, 0.3, 10);
-		// 		emitter.revive();
-		// 	} else {
-		// 		trace('EMITTER IS NULL');
-		// 	}
-
-		// 	dispose();
-		// 	FlxG.sound.play(AssetPaths.defeat_enemy__wav, 1);
-		// }
+			dispose();
+			FlxG.sound.play(AssetPaths.defeat_enemy__wav, 1);
+		}
 	}
 }
