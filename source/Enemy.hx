@@ -1,6 +1,6 @@
 package ;
 
-import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.math.FlxMath;
@@ -20,6 +20,11 @@ enum EnemyState {
 
 class Enemy extends Spawnable
 {
+	public static var BULLET_DELAY:Float = 25;
+	public static var BULLET_SPEED:Float = 300;
+
+	private var bullets:FlxTypedGroup<Bullet>;
+
 	private var state:EnemyState;
 	private var chasePoint:FlxPoint;
 
@@ -31,17 +36,27 @@ class Enemy extends Spawnable
 	public var chaseVelocity:FlxPoint;
 	var explosions:FlxTypedGroup<FlxEmitter>;
 
-	public function new(x:Float, y:Float, explosions:FlxTypedGroup<FlxEmitter>, ?simpleGraphic:FlxGraphicAsset)
+	var enemyLife:Int;
+
+	public function new(x:Float, y:Float, explosions:FlxTypedGroup<FlxEmitter>, bullets:FlxTypedGroup<Bullet>)
 	{
 		// TODO fazer o load com o loadRotatedGraphic
-		super(x, y, simpleGraphic);
+		super(x, y);
+
+		this.bullets = bullets;
+		this.explosions = explosions;
 
 		originalSpawn = new FlxPoint(x, y);
 		spawn = new FlxPoint();
 
 		chaseVelocity = FlxPoint.get(150, 300);
 
-		this.explosions = explosions;
+		offset.x = 20;
+		offset.y = 20;
+		width -= 40;
+		height -= 40;
+
+		enemyLife = 2;
 
 		kill();
 	}
@@ -123,6 +138,16 @@ class Enemy extends Spawnable
 
 		spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
 
+		var bullet = bullets.getFirstDead();
+		if (bullet != null)
+		{
+			bullet.setPosition(x + width / 2 + FlxG.camera.scroll.x, y + height / 2 + FlxG.camera.scroll.y);
+			bullet.angle = angle * 90;
+			bullet.velocity.set(Math.cos(angle * FlxAngle.TO_RAD)*BULLET_SPEED, Math.sin(angle * FlxAngle.TO_RAD) * BULLET_SPEED);
+			bullet.launched = true;
+			bullet.revive();
+		}
+
 		state = EnemyState.Fleeing;
 	}
 
@@ -155,19 +180,26 @@ class Enemy extends Spawnable
 
 	public function takeHit(dmg:Int)
 	{
-		if (this.health > 0) {
-			trace('Damage taken $health');
-			health -= dmg;
-			FlxG.sound.play(AssetPaths.explosion__wav, 1);
-		} else {
+		// enemyLife -= 1;
 
-			var emitter = explosions.recycle();
-			// var emitter = explosions.getFirstDead();
-			emitter.focusOn(this);
-			emitter.start(true, 0.3, 10);
-			emitter.revive();
-			dispose();
-			FlxG.sound.play(AssetPaths.defeat_enemy__wav, 1);
-		}
+		// if (this.health > 0) {
+		// 	// trace('Damage taken $health');
+		// 	health -= dmg;
+		// 	FlxG.sound.play(AssetPaths.explosion__wav, 1);
+		// } else {
+		// 	// trace('explosions : $explosions');
+		// 	var emitter = explosions.recycle();
+		// 	// var emitter = explosions.getFirstDead();
+		// 	if (emitter != null) {
+		// 		emitter.focusOn(this);
+		// 		emitter.start(true, 0.3, 10);
+		// 		emitter.revive();
+		// 	} else {
+		// 		trace('EMITTER IS NULL');
+		// 	}
+
+		// 	dispose();
+		// 	FlxG.sound.play(AssetPaths.defeat_enemy__wav, 1);
+		// }
 	}
 }

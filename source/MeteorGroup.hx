@@ -7,6 +7,8 @@ class MeteorGroup extends FlxGroup
 {
 	public function new ()
 	{
+		super();
+		
 		init();
 	}
 

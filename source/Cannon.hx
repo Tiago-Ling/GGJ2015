@@ -14,14 +14,14 @@ class Cannon extends FlxGroup
 	public static var BULLET_SPEED:Float = 600;
 
 	public var bullets:FlxTypedGroup<Bullet>;
-	
+
 	var gfx:FlxSprite;
 	var playerId:Int;
 	var isAttached:Bool;
 	var fireDelay:Float;
 	var angleHelper:FlxObject;
 
-	public function new(X:Float, Y:Float, id:Int) 
+	public function new(X:Float, Y:Float, id:Int)
 	{
 		super();
 
@@ -29,7 +29,7 @@ class Cannon extends FlxGroup
 		fireDelay = 0;
 
 		init(X, Y, id);
-	}	
+	}
 
 	function init(X:Float, Y:Float, id:Int)
 	{
@@ -49,6 +49,11 @@ class Cannon extends FlxGroup
 
 		angleHelper = new FlxObject(X, Y);
 		angleHelper.angle = -90;
+
+		gfx.offset.x = 10;
+		gfx.offset.y = 10;
+		gfx.width -= 20;
+		gfx.height -= 20;
 	}
 
 	public function attachPlayer(id:Int) {
@@ -71,7 +76,7 @@ class Cannon extends FlxGroup
 		handleInput();
 	}
 
-	function handleInput() 
+	function handleInput()
 	{
 		if (!isAttached)
 			return;
@@ -107,7 +112,7 @@ class Cannon extends FlxGroup
 					}
 				}
 			}
-		} else {	//Player 2 commands 
+		} else {	//Player 2 commands
 			if (ID == 0) {
 				if (FlxG.keys.pressed.D) {
 					if (gfx.angle < 0) {
@@ -165,6 +170,6 @@ class Cannon extends FlxGroup
 					FlxG.sound.play(AssetPaths.tiro__wav);
 				}
 			}
-		}	 
+		}
 	}
 }

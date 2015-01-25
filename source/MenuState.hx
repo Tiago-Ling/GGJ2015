@@ -43,7 +43,7 @@ class MenuState extends FlxState
 		// FlxG.worldBounds.set(-10000, -10000, 20000, 20000);
 
 		this.bgColor = 0xff444444;
-		// FlxG.debugger.drawDebug = true;
+		FlxG.debugger.drawDebug = true;
 
 		// var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
 		var bg = new RunnerBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
@@ -137,32 +137,27 @@ class MenuState extends FlxState
 	function checkCollisions()
 	{
 		FlxG.overlap(ship.bullets, enemyGroup, function (a:Bullet, b:Enemy) {
-			trace('Collision -> bullet x enemy at ${a.x},${a.y} - ${b.x},${b.y}');
-			if (a.alive && b.alive) {
-				a.dispose();
-				// b.dispose();
-				b.takeHit(1);
-			}
+			handleBulletEnemyCollision(a, b);
 		});
+
+		// FlxG.overlap(ship.bullets, enemyGroup, handleBulletEnemyCollision);
+
+		FlxG.overlap(ship, enemyGroup.bullets, function (a:Ship, b:Bullet) {
+			//trace('Collision -> ship x enemy bullet at ${a.hull.x},${a.hull.y} - ${b.x},${b.y}');
+			b.dispose();
+			ship.takeHit(10);
+		});
+	}
+
+	function handleBulletEnemyCollision(a:Bullet, b:Enemy) {
+		// trace('Collision -> bullet x enemy at ${a.x},${a.y} - ${b.x},${b.y}');
+		a.dispose();
+		// b.dispose();
+		b.takeHit(1);
 	}
 
 	function handleSlotInteraction()
 	{
-		// if (FlxG.keys.justPressed.E) {
-		// 	var didOverlap:Bool = false;
-		// 	FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
-		// 		if (didOverlap)
-		// 			return;
-
-		// 		didOverlap = true;
-		// 		if (a.isAttached) {
-		// 			ship.dettachPlayer(a.ID, b.ID);
-		// 		} else {
-		// 			ship.attachPlayer(a.ID, b.ID);
-		// 		}
-		// 	});
-		// }
-
 		var didOverlap:Bool = false;
 		FlxG.overlap(ship.players, ship.slots, function (a:Player, b:FlxSprite) {
 			switch (a.ID) {
@@ -171,7 +166,7 @@ class MenuState extends FlxState
 						if (didOverlap)
 							return;
 
-						didOverlap = true;			
+						didOverlap = true;
 						if (a.isAttached) {
 							ship.dettachPlayer(a.ID, b.ID);
 						} else {
@@ -183,7 +178,7 @@ class MenuState extends FlxState
 						if (didOverlap)
 							return;
 
-						didOverlap = true;			
+						didOverlap = true;
 						if (a.isAttached) {
 							ship.dettachPlayer(a.ID, b.ID);
 						} else {

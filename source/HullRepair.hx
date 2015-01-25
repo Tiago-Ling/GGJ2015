@@ -26,8 +26,12 @@ class HullRepair extends FlxSprite
 	function init()
 	{
 		loadGraphic(AssetPaths.repair__png);
-
 		this.scrollFactor.set(0,0);
+
+		offset.x = 5;
+		offset.y = 5;
+		width -= 10;
+		height -= 10;
 
 		timeElapsed = 0;
 	}
