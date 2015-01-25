@@ -62,6 +62,7 @@ class MenuState extends FlxState
 		enemyGroup.spawn(FlxPoint.weak(0, 0));
 
 		hud = new HUD();
+		ship.setHullHUDCallback(hud.setHullHealth);
 		add(hud);
 
 		// enemyGroup.spawn(FlxPoint.weak(0, 0));
@@ -101,6 +102,8 @@ class MenuState extends FlxState
 
 		if (FlxG.keys.justReleased.F12)
 		{
+			hud.setHullHealth(50);
+			hud.setShieldCount(1);
 			Configuration.load(AssetPaths.config__xml);
 		}
 	}

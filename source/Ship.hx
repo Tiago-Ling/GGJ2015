@@ -10,7 +10,12 @@ import flixel.math.FlxPoint;
 
 class Ship extends FlxGroup
 {
-	public var hullHealth:Int;
+	static inline var MAX_HULL:Float = 100;
+
+	public var hullHealth:Float;
+	public var shieldCount:Int;
+
+	var hullHUDCallback:Float->Void;
 
 	public var players:FlxGroup;
 	public var slots:FlxGroup;
@@ -43,7 +48,7 @@ class Ship extends FlxGroup
 	{
 		// this.scrollFactor.set(0, 0);
 
-		hullHealth = 100;
+		hullHealth = 0;
 
 		players = new FlxGroup();
 		slots = new FlxGroup();
@@ -79,6 +84,7 @@ class Ship extends FlxGroup
 		add(rightThruster);
 
 		hullRepair = new HullRepair(pos.x + hull.width / 2 - 20, pos.y + hull.height / 2 - 30, 6);
+		hullRepair.setHullRepairCallback(repairHull);
 		slots.add(hullRepair);
 		add(hullRepair);
 
@@ -124,6 +130,8 @@ class Ship extends FlxGroup
 				leftThruster.attachPlayer(pId);
 			case 5:
 				rightThruster.attachPlayer(pId);
+			case 6:
+				hullRepair.attachPlayer(pId);
 		}
 
 		pId == 0 ? pA.isAttached = true : pB.isAttached = true;
@@ -146,12 +154,30 @@ class Ship extends FlxGroup
 				leftThruster.dettachPlayer();
 			case 5:
 				rightThruster.dettachPlayer();
+			case 6:
+				hullRepair.dettachPlayer();
 		}
 
 		pId == 0 ? pA.isAttached = false : pB.isAttached = false;
 
 		trace('Dettached player $pId from slot $slotId -> isAttached : ${pId == 0 ? pA.isAttached : pB.isAttached}');
 
+	}
+
+	public function setHullHUDCallback(callback:Float->Void)
+	{
+		hullHUDCallback = callback;
+	}
+
+	public function repairHull(value:Float)
+	{
+		trace('c2: $value');
+
+		hullHealth += value;
+		if (hullHealth > MAX_HULL)
+			hullHealth = MAX_HULL;
+
+		hullHUDCallback(hullHealth);
 	}
 
 	override public function update(elapsed:Float)
