@@ -35,6 +35,8 @@ class MenuState extends FlxState
 	{
 		super.create();
 
+		// FlxG.worldBounds.set(-10000, -10000, 20000, 20000);
+
 		this.bgColor = 0xff444444;
 		FlxG.debugger.drawDebug = true;
 
@@ -59,13 +61,9 @@ class MenuState extends FlxState
 		enemyGroup = new EnemyGroup(5, 5);
 		add(enemyGroup);
 
-		enemyGroup.spawn(FlxPoint.weak(0, 0));
-
 		hud = new HUD();
 		ship.setHullHUDCallback(hud.setHullHealth);
 		add(hud);
-
-		// enemyGroup.spawn(FlxPoint.weak(0, 0));
 	}
 
 	/**
@@ -84,19 +82,20 @@ class MenuState extends FlxState
 	{
 		super.update(elapsed);
 
+		// FlxG.camera.scroll.y -= 100 * elapsed;
+
 		checkCollisions();
 
-		FlxG.camera.scroll.y -= 100 * elapsed;
+		// // TODO spawn test: remover
+		// if (meteorGroup.countDead() == -1 && meteorGroup.countLiving() == -1)
+		// {
+		// 	meteorGroup.spawn();
+		// }
 
-		// TODO spawn test: remover
-		if (meteorGroup.countDead() == -1 && meteorGroup.countLiving() == -1)
-		{
-			meteorGroup.spawn();
-		}
-		if (meteorGroup.countDead() >= 0 && meteorGroup.countLiving() == 0)
-		{
-			meteorGroup.spawn();
-		}
+		// if (meteorGroup.countDead() >= 0 && meteorGroup.countLiving() == 0)
+		// {
+		// 	meteorGroup.spawn();
+		// }
 
 		handleSlotInteraction();
 
@@ -111,9 +110,11 @@ class MenuState extends FlxState
 	function checkCollisions()
 	{
 		FlxG.overlap(ship.bullets, enemyGroup, function (a:Bullet, b:Enemy) {
-			trace('Collision -> bullet x enemy');
-			a.kill();
-			b.kill();
+			trace('Collision -> bullet x enemy at ${a.x},${a.y} - ${b.x},${b.y}');
+			if (a.alive && b.alive) {
+				a.dispose();
+				b.dispose();
+			}
 		});
 	}
 

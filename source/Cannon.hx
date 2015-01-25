@@ -142,8 +142,7 @@ class Cannon extends FlxGroup
 		if (FlxG.keys.pressed.SPACE && fireDelay <= 0) {
 			var bullet = bullets.getFirstDead();
 			if (bullet != null) {
-				bullet.x = gfx.x + gfx.width / 2 + FlxG.camera.scroll.x;
-				bullet.y = gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y;
+				bullet.setPosition(gfx.x + gfx.width / 2 + FlxG.camera.scroll.x, gfx.y + (gfx.height / 4) * 3 + FlxG.camera.scroll.y);
 				bullet.angle = gfx.angle;
 				bullet.velocity.set(Math.cos(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED, Math.sin(angleHelper.angle * FlxAngle.TO_RAD) * BULLET_SPEED);
 				bullet.launched = true;

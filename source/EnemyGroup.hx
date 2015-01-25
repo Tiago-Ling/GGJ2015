@@ -37,7 +37,6 @@ class EnemyGroup extends FlxGroup
 	{
 		for (i in 0...30) {
 			var enemy = new Enemy(0, 0);
-			enemy.kill();
 			add(enemy);
 		}
 	}
@@ -50,21 +49,12 @@ class EnemyGroup extends FlxGroup
 
 	public function spawn(position:FlxPoint)
 	{
-		if (this.countDead() > 0)
-		{
-			// TODO condição de spawn aleatoria?
-
-			var enemy = cast(this.getFirstDead(), Enemy);
+		var enemy = cast(recycle(), Enemy);
+		if (enemy != null) {
 			if (position.y > 0)
 				enemy.chaseVelocity.y += 100;
-				// enemy.chaseVelocity.set(enemy.chaseVelocity.x * 2, enemy.chaseVelocity.y + 100);
 
 			enemy.activate(position.x + FlxG.camera.scroll.x, position.y + FlxG.camera.scroll.y);
-		}
-		else
-		{
-			var enemy = new Enemy(position.x + FlxG.camera.scroll.x, FlxG.camera.scroll.y);
-			add(enemy);
 		}
 	}
 
@@ -73,10 +63,17 @@ class EnemyGroup extends FlxGroup
 		super.update(elapsed);
 
 		if (spawnCounter <= 0) {
+			var arr = [];
+			var index = -1;
 			for (i in 0...numEnemies) {
-				trace('enemy spawned');
-				var index = FlxG.random.int(0, positions.length - 1);
+				if (arr.length > 0)
+					index = FlxG.random.int(0, positions.length - 1, arr);
+				else
+					index = FlxG.random.int(0, positions.length - 1);
+				
 				spawn(positions[index]);
+
+				arr.push(index);
 			}
 
 			spawnCounter = spawnDelay;

@@ -38,7 +38,7 @@ class Enemy extends Spawnable
 
 		chaseVelocity = FlxPoint.get(150, 300);
 
-		this.revive();
+		kill();
 	}
 
 	public function setState(state:EnemyState)
@@ -57,12 +57,13 @@ class Enemy extends Spawnable
 
 	override public function activate(x:Float, y:Float)
 	{
-		revive();
 		originalSpawn.set(x, y);
 		setPosition(x, y);
 		chasePoint = FlxPoint.get(FlxG.camera.scroll.x + FlxG.width / 2,	FlxG.camera.scroll.y + FlxG.height / 2);
 		this.angle = FlxAngle.angleBetweenPoint(this, chasePoint, true);
 		state = Enemy.EnemyState.Chasing;
+
+		revive();
 	}
 
 	override public function update(elapsed:Float)
@@ -106,12 +107,6 @@ class Enemy extends Spawnable
 
 	private function updateFire(elapsed:Float)
 	{
-		state = EnemyState.Fleeing;
-		spawn.set(originalSpawn.x + FlxG.camera.scroll.x - width, originalSpawn.y + FlxG.camera.scroll.y - height);
-	}
-
-	private function updateFlee(elapsed:Float)
-	{
 		var w = width;
 		var h = height;
 		if (originalSpawn.x < 0)
@@ -119,15 +114,36 @@ class Enemy extends Spawnable
 		if (originalSpawn.y < 0)
 			h *= -1;
 
-		// spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
-		spawn.set(originalSpawn.x + w, originalSpawn.y + h);
+		spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
+
+		state = EnemyState.Fleeing;
+	}
+
+	private function updateFlee(elapsed:Float)
+	{
+		if (!this.isOnScreen()) {
+			dispose();
+		}
+
+		var w = width;
+		var h = height;
+		if (originalSpawn.x < 0)
+			w *= -1;
+		if (originalSpawn.y < 0)
+			h *= -1;
+
+		spawn.set(originalSpawn.x + FlxG.camera.scroll.x + w, originalSpawn.y + FlxG.camera.scroll.y + h);
+		// spawn.set(originalSpawn.x + w, originalSpawn.y + h);
 		this.angle = FlxAngle.angleBetweenPoint(this, spawn, true);
 		var speed = FlxG.random.float(chaseVelocity.x, chaseVelocity.y);
 		FlxVelocity.moveTowardsPoint(this, spawn, speed);
+	}
 
-		if (!this.isOnScreen()) {
-			angle = 0;
-			kill();
-		}
+	public function dispose()
+	{
+		angle = 0;
+		state = EnemyState.Idle;
+		elapsedCharge = 0;
+		kill();
 	}
 }
