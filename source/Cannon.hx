@@ -49,6 +49,11 @@ class Cannon extends FlxGroup
 
 		angleHelper = new FlxObject(X, Y);
 		angleHelper.angle = -90;
+
+		gfx.offset.x = 10;
+		gfx.offset.y = 10;
+		gfx.width -= 20;
+		gfx.height -= 20;
 	}
 
 	public function attachPlayer(id:Int) {
@@ -165,6 +170,6 @@ class Cannon extends FlxGroup
 					FlxG.sound.play(AssetPaths.tiro__wav);
 				}
 			}
-		}	 
+		}
 	}
 }

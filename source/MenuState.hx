@@ -43,7 +43,7 @@ class MenuState extends FlxState
 		// FlxG.worldBounds.set(-10000, -10000, 20000, 20000);
 
 		this.bgColor = 0xff444444;
-		// FlxG.debugger.drawDebug = true;
+		FlxG.debugger.drawDebug = true;
 
 		// var bg = new FlxBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
 		var bg = new RunnerBackdrop(AssetPaths.bg_fundo__png, 0.3, 0.3, true, true);
@@ -177,7 +177,7 @@ class MenuState extends FlxState
 						if (didOverlap)
 							return;
 
-						didOverlap = true;			
+						didOverlap = true;
 						if (a.isAttached) {
 							ship.dettachPlayer(a.ID, b.ID);
 						} else {
@@ -189,7 +189,7 @@ class MenuState extends FlxState
 						if (didOverlap)
 							return;
 
-						didOverlap = true;			
+						didOverlap = true;
 						if (a.isAttached) {
 							ship.dettachPlayer(a.ID, b.ID);
 						} else {

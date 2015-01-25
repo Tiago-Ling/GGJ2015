@@ -56,7 +56,7 @@ class Player extends FlxSprite
 	{
 		super.update(elapsed);
 
-		FlxSpriteUtil.bound(this, ship.x, ship.x + ship.width, ship.y - 24, ship.y + ship.height);
+		FlxSpriteUtil.bound(this, ship.x, ship.x + ship.width + 20, ship.y - 24, ship.y + ship.height);
 
 		handleInput();
 	}
