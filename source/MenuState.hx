@@ -122,10 +122,11 @@ class MenuState extends FlxState
 
 		handleSlotInteraction();
 
+		/*if (ship.hullHealth <= 0)
+			FlxG.switchState(new GameOverState());*/
+
 		if (FlxG.keys.justReleased.F12)
 		{
-			hud.setHullHealth(50);
-			hud.setShieldCount(1);
 			Configuration.load(AssetPaths.config__xml);
 		}
 	}
